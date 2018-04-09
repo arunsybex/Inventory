@@ -1,12 +1,12 @@
 pragma solidity ^0.4.18;
 
 
-import "./ERC20Basic.sol";
+
 import "./SafeMath.sol";
 
 
 
-contract BasicToken is ERC20Basic {
+contract BasicToken  {
   using SafeMath for uint256;
   
     address owner;
@@ -42,21 +42,23 @@ contract BasicToken is ERC20Basic {
     require(_value <= balances[msg.sender]);
     balances[msg.sender] = balances[msg.sender].sub(_value);
     balances[_to] = balances[_to].add(_value);
-    Transfer(msg.sender, _to, _value);
     return true;
+       
   }
 
   
-  function balanceOf(address _owner) public view returns (uint256 balance) {
+  function balanceOf(address _owner) public view  returns (uint256 balance) {
     return balances[_owner];
   }
   
- function sendEther() public payable  {
+ function sendEther() public payable returns(uint256)  {
         uint256 t=msg.value/rate;
         require(balances[owner]>t && msg.value==rate*t);
         owner.transfer(msg.value);
         balances[msg.sender]=balances[msg.sender]+t;
         balances[owner]=balances[owner]-t;
-        
+        return balances[msg.sender];
  }
+ 
+ 
 }

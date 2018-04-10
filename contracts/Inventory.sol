@@ -11,6 +11,7 @@ contract Inventory is owned,BasicToken{
    address public customer;
    uint256 public productCount=0;
    uint256[] public p_id;
+   uint256[] public o_id;
     
     struct product{
         uint pid;
@@ -70,10 +71,15 @@ contract Inventory is owned,BasicToken{
         
     }  
    
-   function getProductsCount() public returns(uint256){
+   function getProductsCount() public view returns(uint256){
        return p_id.length;
    }
-   
+
+   function getProductId(uint _id) public view returns(uint256)
+   {
+       return p_id[_id];
+   }
+
     function order(uint id2,uint id,address id1,uint pquantity)public  {
            require(id ==PROD[id].pid && pquantity <= PROD[id].pquantity);
            require(id1 == CUST[id1]);
@@ -88,11 +94,14 @@ contract Inventory is owned,BasicToken{
            PROD[id].pquantity-=pquantity;
            balances[msg.sender] -= ORDER[id2].tprice ;
            balances[owner] += ORDER[id2].tprice;
-           
+            o_id.push(id2);
            
           
     }
 
+    function getOrderCount()public view returns(uint256){
+        return o_id.length;
+    }
      
    
     function purchase_order(uint id,string p_name,string brands,uint _quantity,uint price)public onlyOwner returns(uint,string,string,uint,uint) {
@@ -120,9 +129,9 @@ contract Inventory is owned,BasicToken{
            return(PROD[id].pid,PROD[id].pname,PROD[id].pbrand,  PROD[id].pquantity,PROD[id].pprice);
        } 
        
-       function vieworder(uint id2)public constant returns(uint,address,string,string,uint){
+       function vieworder(uint id2)public constant returns(uint,address,string,string,uint,uint,uint){
            
-           return (ORDER[id2].id,ORDER[id2].cid, ORDER[id2]. name, ORDER[id2].brand,ORDER[id2].quantity);
+           return (ORDER[id2].id,ORDER[id2].cid, ORDER[id2].name, ORDER[id2].brand,ORDER[id2].quantity,ORDER[id2].price,ORDER[id2].tprice);
        }
        
        

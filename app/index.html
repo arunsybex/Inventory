@@ -143,8 +143,20 @@
         <input type="text" id="voquantity1"><br>
         <label for="price">Price:</label><br>
         <input type="text" id="voprice1"><br>
-        <br><br><button type="button" class="btn btn-success" onclick="App.Vieworder()" id="addbtn">VIEW</button>  <br>
-
+        <br><br><button type="button" class="btn btn-success" onclick="App.Vieworder()">VIEW</button>  <br>
+        <table class="table table-striped" >
+            <thead> 
+                <tr><th>Order Id</th>
+                    <th>Customer Id</th>
+                    <th>Product Name</th>
+                    <th>Product Brand</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>TotalPrice</th>
+                </tr>
+            </thead>
+            <tbody id="order_list"></tbody>
+        </table>
       </div>
 
 

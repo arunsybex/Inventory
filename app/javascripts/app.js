@@ -252,83 +252,39 @@ window.App = {
             $("product_list").html('')
             inventory.deployed().then(function(instance){
               meta = instance;
-              return meta.viewproduct(a,{from:account,gas:6000000});//{from:account,gas:6000000}
+              //return meta.viewproduct(a,{from:account,gas:6000000});//{from:account,gas:6000000}
               // meta.getProductsCount().then(function(result,error){
               //   console.log(result);
               //   console.log(error);
-              // });
-            }).then(function(result) {
-              console.log(result);
-             
-                   $("#product_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td></tr>');
-                     
-
-            });  
+                   return meta.getProductsCount();
+              }).then(function(val) {
+                $.each(val,function(err,data){
+                 meta.PROD(data).then(function(result){
+                  $("#product_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td></tr>');
+                 })
+                })
+               
+             });
+                   
+          
             
-            // }).then(function(result) {
-            //     alert(result);
-            // //$("#productlist").append('<tr><td>' +a+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td></tr>');
-            //     // for(var i=0;i<result;i++)
-            //     // {
-            //     //   meta.PROD(result[i]).then(function(data,err)
-            //     // {
-            //     //   $("#product_list").append('<tr><td>' +data[0]+'</td><td>'+ data[1] + '</td><td>' + data[2] +'</td><td>'+ data[3]+'</td><td>'+data[4]+'</td></tr>');
-            //     // });
-            //     //                  }
-            //   }).catch(function(e) {
-            //    console.log(e);
-            //    //self.setStatus("Error sending coin; see log.");
-            //  });
-
-
-          //   inventory.deployed().then(function(instance){
-          //     meta = instance;
-          //     return meta.productCount;
-          //   }).then(function(result) {
-          //         productCount=result;
-          //   //$("#productlist").append('<tr><td>' +a+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td></tr>');
-          //       console.log(result);           
-          //     }).catch(function(e) {
-          //      console.log(e);
-          //      //self.setStatus("Error sending coin; see log.");
-          //    });
-
-             
-
-
-          //   //var a = parseInt(p_id);           
-          //  //$("#productlist").html('')
-          //  for(let a=0;a<productCount;a++)
-          //  {
-          //   inventory.deployed().then(function(instance){
-          //     meta = instance;
-          //     return meta.viewproduct(productId[a],{from:account,gas:6000000});
-          //   }).then(function(result) {
-          //         $("get_order_list").append("<tr><td>"+result[0]+"</td><td>"+result[1]+"</td><td>"+result[2]+"</td><td>"+result[3]+"</td><td>"+result[4]+"</td></tr>");
-          //         $("#productlist").append('<tr><td>' +a+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td></tr>');
-          //       console.log(result);           
-          //     }).catch(function(e) {
-          //      console.log(e);
-          //      //self.setStatus("Error sending coin; see log.");
-          //    });
-          //   }
-            },
+        },
            
             Vieworder :function(){
               var self = this;
               var meta;
-              var a =parseInt(document.getElementById("void1").value);
+              var a =parseInt(document.getElementById("orid").value);
+              $("#order_list").html('')
               inventory.deployed().then(function(instance){
                 meta = instance;
                 return meta.vieworder(a,{from:account,gas:6000000});
               }).then(function(result) {
                  console.log(result);
-                // self.setStatus("Transaction complete!");
-                //document.getElementById("AO").value= result;
-                document.getElementById("voname1").value=result[1];
-                document.getElementById("vobrand1").value=result[2];
-                document.getElementById("voquantity1").value=result[3];
-                document.getElementById("voprice1").value=result[4];
+                 $("#order_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+result[6]+'</td></tr>');
+                //document.getElementById("voname1").value=result[1];
+               // document.getElementById("vobrand1").value=result[2];
+               // document.getElementById("voquantity1").value=result[3];
+               // document.getElementById("voprice1").value=result[4];
                 //$("#get_order_list").append('<tr><td>'+result[1]+'</td><td>'+result[2]+'</td><td>'+result[3]+'</td><td>'+result[4]+'</td></tr>');
               }).catch(function(e) {
                  console.log(e);

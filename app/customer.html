@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>INVENOTRY</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="../app.js"></script>
+</head>
+<body>
+
+   
+
+
+  <!-- Menu selector  <li class="active"><a data-toggle="tab" href="#home">Home</a></li> -->
+<div class="container">
+  <center><h2>Inventory Management</h2></center>
+  <button class="btn btn-success" style="float:right;"><a href="..\app\index.html"><b style="color:black;">HOME</b></a></button>
+   <p></p>
+   <b style="color:black;">
+  <ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="#menu6">Customer</a></li>
+    <li><a data-toggle="tab" href="#menu7">Ether</a></li>
+    <li><a data-toggle="tab" href="#menu8">Customer Purchase</a></li>
+    <li><a data-toggle="tab" href="#menu5">ViewProduct</a></li>
+    <!--<li><a data-toggle="tab" href="#menu6">Token Request</a></li>-->
+  </ul></b>
+
+  <div class="tab-content">
+    
+   
+
+
+      <!-- Token -->
+          <div id="menu5" class="tab-pane fade">
+   
+            <table class="table table-striped" >
+                <thead> 
+                    <tr><th>Product Id</th>
+                        <th>Product Name</th>
+                        <th>Product Brand</th>
+                        <th>Product Quantity</th>
+                        <th>Product Price</th></tr>
+                </thead>
+                <tbody id="product_list"></tbody>
+            </table>
+            <br><br><button type="button" class="btn btn-success"onclick="App.ViewProduct();" id="addbtn">VIEW</button>  
+                            
+      </div>
+      <div id="menu6" class="tab-pane fade">
+            <label for="address">Customer Address:</label>
+            <input type="text" id="add" placeholder="e.g., 0x12Fh...">
+            <button type="button" class="btn btn-info" onclick="App.customer()">CUSTOMER</button>
+        </div>
+        <div id="menu7" class="tab-pane fade">
+            <label for="id"> ETHER VALUE</label><br>
+            <input type="text" id="ether" class="w3-input w3-hover-green"  placeholder="e.g., PR1" required/><br>
+                     
+            <label for="id"> ADDRESS</label><br>
+            <input type="text" id="owner" class="w3-input w3-hover-green"  placeholder="e.g., PR1" required/><br>
+            
+            
+            <label for="id"> BALANCE</label><br>
+            <input type="text" id="ba" class="w3-input w3-hover-green"  placeholder="e.g., PR1" required/><br>
+            
+        
+            <br><br><button type="button" class="btn btn-success" onclick="App.sendether()">ADD</button>
+            <button type="button" class="btn btn-success" onclick="App.balance()">BALANCE</button><br>
+        </div>
+        <div id="menu8" class="tab-pane fade">
+            <label for="ord id">ORDER ID</label><br>
+            <input type="text" id="orid"><br>
+        
+            <label for="pro id">PRODUCT ID</label><br>
+            <input type="text" id="id2"><br>
+            
+            <label for="cust id">CUSTOMER Id</label><br>
+            <input type="text" id="cid"><br>
+            <label for="quantity">Quantity:</label><br>
+            <input type="text" id="qnty"><br>
+            
+            <br><br><button type="button"  id="addbtn"onclick="App.Cutomerorder()">ORDER</button> 
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

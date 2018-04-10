@@ -60,6 +60,7 @@ contract Inventory is owned,BasicToken{
          
     function p_details(uint id,string name,string brand,uint quantity,uint price)public onlyOwner   {
      
+        require(PROD[id].pid!=id);
         PROD[id].pid = id;
         PROD[id].pname = name;
         PROD[id].pbrand = brand;
@@ -69,6 +70,7 @@ contract Inventory is owned,BasicToken{
         p_id.push(id);
         
         
+
     }  
    
    function getProductsCount() public view returns(uint256){
@@ -92,9 +94,9 @@ contract Inventory is owned,BasicToken{
            ORDER[id2].price = pquantity *  PROD[id].pprice; 
            ORDER[id2].tprice += ORDER[id2].price ;
            PROD[id].pquantity-=pquantity;
-           balances[msg.sender] -= ORDER[id2].tprice ;
+           balances[msg.sender] -= ORDER[id2].tprice; 
            balances[owner] += ORDER[id2].tprice;
-            o_id.push(id2);
+           o_id.push(id2);
            
           
     }
@@ -122,6 +124,7 @@ contract Inventory is owned,BasicToken{
                
                PROD[id].pquantity += quantity;
                PURCHASE[id].iquantity -= quantity;
+               PROD[id].pprice=PURCHASE[id].iprice;
          }
          
        function viewproduct(uint id)public constant returns(uint,string,string,uint,uint){
@@ -131,7 +134,7 @@ contract Inventory is owned,BasicToken{
        
        function vieworder(uint id2)public constant returns(uint,address,string,string,uint,uint,uint){
            
-           return (ORDER[id2].id,ORDER[id2].cid, ORDER[id2].name, ORDER[id2].brand,ORDER[id2].quantity,ORDER[id2].price,ORDER[id2].tprice);
+           return (ORDER[id2].id2,ORDER[id2].cid, ORDER[id2].name, ORDER[id2].brand,ORDER[id2].quantity,ORDER[id2].price,ORDER[id2].tprice);
        }
        
        
@@ -140,7 +143,8 @@ contract Inventory is owned,BasicToken{
            return( PURCHASE[id].ipid, PURCHASE[id].ipname,PURCHASE[id].brands, PURCHASE[id].iquantity,PURCHASE[id].iprice);
            
        }
-         
+
+      
          
     
 }

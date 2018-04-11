@@ -12,7 +12,8 @@ contract Inventory is owned,BasicToken{
    uint256 public productCount=0;
    uint256[] public p_id;
    uint256[] public o_id;
-    
+   uint256[] public pur_id;
+     
     struct product{
         uint pid;
         string pname;
@@ -83,17 +84,17 @@ contract Inventory is owned,BasicToken{
    }
 
     function order(uint id2,uint id,address id1,uint pquantity)public  {
-           require(id ==PROD[id].pid && pquantity <= PROD[id].pquantity);
+           require(id ==PURCHASE[id].ipid && pquantity <= PURCHASE[id].iquantity);
            require(id1 == CUST[id1]);
            ORDER[id2].id2 = id2;
            ORDER[id2].cid = id1;
            ORDER[id2].id=id;
-           ORDER[id2].name =PROD[id].pname ;
-           ORDER[id2].brand =  PROD[id].pbrand;
+           ORDER[id2].name =PURCHASE[id].ipname ;
+           ORDER[id2].brand =  PURCHASE[id].brands;
            ORDER[id2].quantity=pquantity;
-           ORDER[id2].price = pquantity *  PROD[id].pprice; 
+           ORDER[id2].price = pquantity *  PURCHASE[id].iprice; 
            ORDER[id2].tprice += ORDER[id2].price ;
-           PROD[id].pquantity-=pquantity;
+           PURCHASE[id].iquantity-=pquantity;
            balances[msg.sender] -= ORDER[id2].tprice; 
            balances[owner] += ORDER[id2].tprice;
            o_id.push(id2);
@@ -114,18 +115,22 @@ contract Inventory is owned,BasicToken{
        PURCHASE[id].iprice = price;
        PURCHASE[id].itprice = _quantity * price;
        balances[owner] -= PURCHASE[id].itprice;
+       pur_id.push(id);
 
        return ( PURCHASE[id].ipid, PURCHASE[id].ipname,PURCHASE[id].brands, PURCHASE[id].iquantity,PURCHASE[id].iprice);
        }
        
-       function addproducts(uint id,string name,string brandname,uint quantity)onlyOwner public{
-           require(quantity <=PURCHASE[id].iquantity);
-           require(keccak256(name) == keccak256(PROD[id].pname) && keccak256(brandname) == keccak256(PROD[id].pbrand) );
+       function purchaseOrder()public view returns(uint256){
+            return pur_id.length;
+       }
+       //function addproducts(uint id,string name,string brandname,uint quantity)onlyOwner public{
+         //  require(quantity <=PURCHASE[id].iquantity);
+         //  require(keccak256(name) == keccak256(PROD[id].pname) && keccak256(brandname) == keccak256(PROD[id].pbrand) );
                
-               PROD[id].pquantity += quantity;
-               PURCHASE[id].iquantity -= quantity;
-               PROD[id].pprice=PURCHASE[id].iprice;
-         }
+              // PROD[id].pquantity += quantity;
+              // PURCHASE[id].iquantity -= quantity;
+              // PROD[id].pprice=PURCHASE[id].iprice;
+         //}
          
        function viewproduct(uint id)public constant returns(uint,string,string,uint,uint){
            
@@ -142,10 +147,7 @@ contract Inventory is owned,BasicToken{
            
            return( PURCHASE[id].ipid, PURCHASE[id].ipname,PURCHASE[id].brands, PURCHASE[id].iquantity,PURCHASE[id].iprice);
            
-       }
-
-      
-         
+       }   
     
 }
    

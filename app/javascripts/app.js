@@ -79,10 +79,10 @@ window.App = {
       var meta;
       tokens.deployed().then(function(instance){
         meta = instance;
-        return meta.balanceOf(owner,{from:account,gas:6000000});
+        return meta.balanceOf(owner);
       }).then(function(result) {
         // self.setStatus("Transaction complete!");
-        document.getElementById("ba").value=result;;
+        document.getElementById("ba").value=result;
         
          //self.refreshBalance();
        }).catch(function(e) {
@@ -123,7 +123,7 @@ window.App = {
    }).then(function(result) {
      // self.setStatus("Transaction complete!");
      
-     document.getElementById("ba").value=result[0];
+     document.getElementById("ba").value=result;
      
      
     }).catch(function(e) {
@@ -155,8 +155,8 @@ window.App = {
         var a = parseInt(document.getElementById("id1").value);
         var b = document.getElementById("name1").value;
         var c = document.getElementById("brand1").value;
-        var d = parseInt(document.getElementById("quantity1").value);
-        var e = parseInt(document.getElementById("price1").value);
+        var d = 0;//parseInt(document.getElementById("quantity1").value);
+        var e = 0;//parseInt(document.getElementById("price1").value);
         //console.log(a,b,c,d,e);
           inventory.deployed().then(function(instance){
             meta = instance;
@@ -164,12 +164,9 @@ window.App = {
            
           }).then(function(result) {
               console.log(result); 
-            //document.getElementById("PR").value=result[0];
-            //res.value=result[0];
-          
+           
            }).catch(function(e) {
              console.log(e);
-             //self.setStatus("Error sending coin; see log.");
            });
          },  
          
@@ -185,16 +182,14 @@ window.App = {
           inventory.deployed().then(function(instance){
             meta = instance;
             return meta.order(a,b,c,d,{from:account,gas:6000000});
+            
           }).then(function(result) {
             alert("ordered");
             console.log(result);
-            // self.setStatus("Transaction complete!");
-            //document.getElementById("OR").value = result[0];
-           
-             
-           }).catch(function(e) {
+            
+          }).catch(function(e) {
              console.log(e);
-             //self.setStatus("Error sending coin; see log.");
+      
            });
          },  
          
@@ -211,11 +206,7 @@ window.App = {
             meta = instance;
             return meta.purchase_order(a,b,c,d,e,{from:account,gas:6000000});
           }).then(function(result) {
-            console.log(result);
-            // self.setStatus("Transaction complete!");
-            //var res=document.getElementById("PO").value = result[0];
-            
-             
+            console.log(result);  
            }).catch(function(e) {
              console.log(e);
              //self.setStatus("Error sending coin; see log.");
@@ -228,7 +219,7 @@ window.App = {
           var b = document.getElementById("addname").value;
           var c = document.getElementById("addbrand").value;
           var d = parseInt(document.getElementById("addquantity").value);
-         
+          
           var meta;
           inventory.deployed().then(function(instance){
             meta = instance;
@@ -248,21 +239,19 @@ window.App = {
           ViewProduct :function(){
             var self = this;
             var meta;
-            var a=document.getElementById("id1").value;
-            $("product_list").html('')
+            $("#product_list").html('')
             inventory.deployed().then(function(instance){
               meta = instance;
-              //return meta.viewproduct(a,{from:account,gas:6000000});//{from:account,gas:6000000}
-              // meta.getProductsCount().then(function(result,error){
-              //   console.log(result);
-              //   console.log(error);
-                   return meta.getProductsCount();
+                return meta.purchaseOrder();
               }).then(function(val) {
-                $.each(val,function(err,data){
-                 meta.PROD(data).then(function(result){
+                console.log(val);
+                //$.each(val,function(err,data){
+                  for(let i=1;i<=val;i++){
+                 meta.viewpurchase(i).then(function(result){
                   $("#product_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td></tr>');
-                 })
                 })
+              }
+                //})
                
              });
                    
@@ -270,27 +259,46 @@ window.App = {
             
         },
            
-            Vieworder :function(){
+        Vieworder :function(){
               var self = this;
               var meta;
-              var a =parseInt(document.getElementById("orid").value);
+             // var a =parseInt(document.getElementById("orid").value);
               $("#order_list").html('')
               inventory.deployed().then(function(instance){
                 meta = instance;
-                return meta.vieworder(a,{from:account,gas:6000000});
-              }).then(function(result) {
-                 console.log(result);
-                 $("#order_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+result[6]+'</td></tr>');
-                //document.getElementById("voname1").value=result[1];
-               // document.getElementById("vobrand1").value=result[2];
-               // document.getElementById("voquantity1").value=result[3];
-               // document.getElementById("voprice1").value=result[4];
-                //$("#get_order_list").append('<tr><td>'+result[1]+'</td><td>'+result[2]+'</td><td>'+result[3]+'</td><td>'+result[4]+'</td></tr>');
+                return meta.getOrderCount();
+              }).then(function(val) {
+                for(let i=1;i<=val;i++){
+                  meta.vieworder(i).then(function(result){
+                    $("#order_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+result[6]+'</td></tr>');
+                 })
+                }
               }).catch(function(e) {
                  console.log(e);
                  //self.setStatus("Error sending coin; see log.");
                });
-              }
+              },
+              ViewRegProduct :function(){
+                var self = this;
+                var meta;
+                $("#reg_list").html('')
+                inventory.deployed().then(function(instance){
+                  meta = instance;
+                    return meta.getProductsCount();
+                  }).then(function(val) {
+                    console.log(val);
+                    //$.each(val,function(err,data){
+                      for(let i=1;i<=val;i++){
+                     meta.viewproduct(i).then(function(result){
+                      $("#reg_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td></tr>');
+                    })
+                  }
+                    //})
+                   
+                 });
+                },
+          
+          
        },
 
        

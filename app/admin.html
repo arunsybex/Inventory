@@ -23,9 +23,10 @@
          
           <li><a data-toggle="tab" href="#menu1">Product Register</a></li>
           <li><a data-toggle="tab" href="#menu2">Purchase</a></li>
-          <li><a data-toggle="tab" href="#menu3">Admin product</a></li>
+         <!-- <li><a data-toggle="tab" href="#menu3">Admin product</a></li>-->
           <li><a data-toggle="tab" href="#menu4">View Customer order</a></li>
           <li><a data-toggle="tab" href="#menu5">View product</a></li>
+          <li><a data-toggle="tab" href="#menu8">View Registerproduct</a></li>
         </ul></b>
       
         <div class="tab-content">
@@ -39,7 +40,7 @@
           
           <!-- Menu selector-->
       
-          <div id="menu1" class="tab-pane fade">
+           <div id="menu1" class="tab-pane fade">
       
                   <label for="id">   PRODUCT ID</label><br>
                   <input type="text" id="id1" class="aa"  placeholder="e.g., PR1" required/><br>
@@ -139,6 +140,20 @@
                       <tbody id="product_list"></tbody>
                   </table>
                   <br><br><button type="button" class="btn btn-success"onclick="App.ViewProduct();" id="addbtn">VIEW</button>  
+                                  
+            </div>
+            <div id="menu8" class="tab-pane fade">
+         
+                  <table class="table table-striped" >
+                      <thead> 
+                          <tr><th>Product Id</th>
+                              <th>Product Name</th>
+                              <th>Product Brand</th>
+                            </tr>
+                      </thead>
+                      <tbody id="reg_list"></tbody>
+                  </table>
+                  <br><br><button type="button" class="btn btn-success"onclick="App.ViewRegProduct();" id="addbtn">VIEW</button>  
                                   
             </div>
             

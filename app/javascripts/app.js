@@ -7,15 +7,15 @@ import { default as contract } from 'truffle-contract'
 
 // Import our contract artifacts and turn them into usable abstractions.
 
-import BasicToken from '../../build/contracts/BasicToken.json'
+//import BasicToken from '../../build/contracts/BasicToken.json'
 import Inventory from '../../build/contracts/Inventory.json'
-import Owned from '../../build/contracts/owned.json'
+//import Owned from '../../build/contracts/owned.json'
 
 // MetaCoin is our usable abstraction, which we'll use through the code below.
 
-var tokens = contract(BasicToken);
+//var tokens = contract(BasicToken);
 var inventory = contract(Inventory);
-var owned = contract(Owned);
+//var owned = contract(Owned);
 // The following code is simple to show off interacting with your contracts.
 // As your needs grow you will likely need to change its form and structure.
 // For application bootstrapping, check out window.addEventListener below.
@@ -33,7 +33,7 @@ window.App = {
     
 
     // Bootstrap the MetaCoin abstraction for Use.
-    tokens.setProvider(web3.currentProvider);
+   //tokens.setProvider(web3.currentProvider);
     inventory.setProvider(web3.currentProvider);
 
     // Get the initial account balance so it can be displayed.
@@ -59,7 +59,7 @@ window.App = {
       var self = this;
       var meta;
       
-      tokens.deployed().then(function(instance){
+      inventory.deployed().then(function(instance){
         meta = instance;
         return meta.totalSupply();
         
@@ -77,7 +77,7 @@ window.App = {
       var self = this;
       var owner = document.getElementById("owner").value;
       var meta;
-      tokens.deployed().then(function(instance){
+      inventory.deployed().then(function(instance){
         meta = instance;
         return meta.balanceOf(owner);
       }).then(function(result) {
@@ -98,7 +98,7 @@ window.App = {
        var value = parseInt(document.getElementById("value").value); 
        
        
-       tokens.deployed().then(function(instance){
+       inventory.deployed().then(function(instance){
         meta = instance;
         return meta.transfer(toaddress,value,{from:account,gas:6000000});
       }).then(function(result) {
@@ -117,7 +117,7 @@ window.App = {
     var self = this;
     var ether= document.getElementById("ether").value;
     var meta;
-    tokens.deployed().then(function(instance){
+    inventory.deployed().then(function(instance){
      meta = instance;
      return meta.sendEther({from:account,value:web3.toWei(ether,"ether"),gas:6000000});
    }).then(function(result) {
@@ -157,6 +157,10 @@ window.App = {
         var c = document.getElementById("brand1").value;
         var d = 0;//parseInt(document.getElementById("quantity1").value);
         var e = 0;//parseInt(document.getElementById("price1").value);
+
+        //document.getElementById("id").value=document.getElementById("id1").value;
+        //document.getElementById("name").value=document.getElementById("name1").value;
+        // document.getElementById("brand").value=document.getElementById("brand1").value;
         //console.log(a,b,c,d,e);
           inventory.deployed().then(function(instance){
             meta = instance;
@@ -195,6 +199,9 @@ window.App = {
          
          purchase: function(){
           var self = this;
+          document.getElementById("id").value=document.getElementById("id1").value;
+          document.getElementById("name").value=document.getElementById("name1").value;
+          document.getElementById("brand").value=document.getElementById("brand1").value;
           var a = parseInt(document.getElementById("id").value);
           var b = document.getElementById("name").value;
           var c = document.getElementById("brand").value;

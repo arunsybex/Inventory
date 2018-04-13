@@ -31,12 +31,8 @@ window.App = {
     var self = this;
     var r=11;
     
-
-    // Bootstrap the MetaCoin abstraction for Use.
-   //tokens.setProvider(web3.currentProvider);
     inventory.setProvider(web3.currentProvider);
-
-    // Get the initial account balance so it can be displayed.
+    
     web3.eth.getAccounts(function(err, accs) {
       if (err != null) {
         alert("There was an error fetching your accounts.");
@@ -115,9 +111,7 @@ window.App = {
          purchase: function(){
           var self = this;
           var meta;
-          //document.getElementById("id").value=document.getElementById("id1").value;
-        //  document.getElementById("name").value=document.getElementById("name1").value;
-         // document.getElementById("brand").value=document.getElementById("brand1").value;
+          
           var a = parseInt(document.getElementById("id").value);
           var d = parseInt(document.getElementById("quantity").value);
          
@@ -160,7 +154,6 @@ window.App = {
         Vieworder :function(){
               var self = this;
               var meta;
-             // var a =parseInt(document.getElementById("orid").value);
               $("#order_list").html('')
               inventory.deployed().then(function(instance){
                 meta = instance;
@@ -173,8 +166,7 @@ window.App = {
                 }
               }).catch(function(e) {
                  console.log(e);
-                 //self.setStatus("Error sending coin; see log.");
-               });
+                 });
               },
       
        outofstock :function(){
@@ -191,8 +183,7 @@ window.App = {
                       $("#reg_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] +'</td></tr>');
                     })
                   }
-                 // $("#reg_list").append('<tr><td>' +result[0]+'</td><td>'+ result[3] +'</td></tr>');
-              })
+                })
             }
 
       }, 

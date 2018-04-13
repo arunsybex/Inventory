@@ -21,12 +21,12 @@
          <b style="color:black;">
         <ul class="nav nav-tabs">
          
-          <li><a data-toggle="tab" href="#menu1">Product Register</a></li>
-          <li><a data-toggle="tab" href="#menu2">Purchase</a></li>
+          <li><a data-toggle="tab" href="#menu1">Product</a></li>
+          <li><a data-toggle="tab" href="#menu2">Update Product</a></li>
          <!-- <li><a data-toggle="tab" href="#menu3">Admin product</a></li>-->
           <li><a data-toggle="tab" href="#menu4">View Customer order</a></li>
           <li><a data-toggle="tab" href="#menu5">Stock Products</a></li>
-          <li><a data-toggle="tab" href="#menu8">Products</a></li>
+          <li><a data-toggle="tab" href="#menu8">Out Of Stocks</a></li>
         </ul></b>
       
         <div class="tab-content">
@@ -51,6 +51,12 @@
               
                 <label for="brand">BRAND</label><br>
                 <input type="text" id="brand1" class="aa" placeholder="e.g., DELL"><br>
+
+                <label for="quantity">Quantity:</label><br>
+                <input type="text" id="quantity1" placeholder="e.g., 20"><br>
+                    
+                <label for="price">Amount:</label><br>
+                <input type="text" id="price1" placeholder="e.g., 95"><br>
               
           
                 <br><br><button type="button" class="btn btn-success" onclick="App.product()">ADD</button>
@@ -67,19 +73,10 @@
                           <label for="id">Product Id:</label><br>
                           <td><input type="text" id="id" placeholder="e.g., PR1"><br>
                      
-                          <label for="name">Product Name:</label><br>
-                          <input type="text" id="name" placeholder="e.g., TV"><br>
-                      
-                          <label for="brand">Brand:</label><br>
-                          <input type="text" id="brand" placeholder="e.g., sony"><br>
-                     
                           <label for="quantity">Quantity:</label><br>
                           <input type="text" id="quantity" placeholder="e.g., 20"><br>
-                    
-                          <label for="price">Amount:</label><br>
-                          <input type="text" id="price" placeholder="e.g., 95"><br>
                       
-                  <br><br><button type="button" class="btn tn-success" onclick="App.purchase()">Purchase</button> <br> 
+                  <br><br><button type="button" class="btn tn-success" onclick="App.purchase()">Update</button> <br> 
            </div>
       
           
@@ -103,7 +100,6 @@
              <input type="text" id="addprice" class="w3-input w3-hover-green" placeholder="e.g., 50000"><br>
                                   
              <br><br><button type="button" class="btn btn-success" onclick="App.Addproduct()">ADD</button><br><br>
-             <button type="button" class="btn btn-danger">CANCEL</button><br>
           </div>
       
           <!-- Fixed deposit-->
@@ -117,7 +113,6 @@
                           <th>Product Brand</th>
                           <th>Quantity</th>
                           <th>Price</th>
-                          <th>TotalPrice</th>
                       </tr>
                   </thead>
                   <tbody id="order_list"></tbody>
@@ -147,13 +142,12 @@
                   <table class="table table-striped" >
                       <thead> 
                           <tr><th>Product Id</th>
-                              <th>Product Name</th>
-                              <th>Product Brand</th>
+                              <th>Product Quantity</th>
                             </tr>
                       </thead>
                       <tbody id="reg_list"></tbody>
                   </table>
-                  <br><br><button type="button" class="btn btn-success"onclick="App.ViewRegProduct();" id="addbtn">VIEW</button>  
+                  <br><br><button type="button" class="btn btn-success"onclick="App. outofstock();" id="addbtn">VIEW</button>  
                                   
             </div>
             

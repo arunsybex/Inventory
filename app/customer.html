@@ -26,7 +26,7 @@
    <b style="color:black;">
   <ul class="nav nav-tabs">
     <li><a data-toggle="tab" href="#menu6">Customer</a></li>
-    <li><a data-toggle="tab" href="#menu7">Ether</a></li>
+    <!--<li><a data-toggle="tab" href="#menu7">Ether</a></li>-->
     <li><a data-toggle="tab" href="#menu8">Customer Purchase</a></li>
     <li><a data-toggle="tab" href="#menu5">ViewProduct</a></li>
     <!--<li><a data-toggle="tab" href="#menu6">Token Request</a></li>-->
@@ -53,7 +53,7 @@
             <input type="text" id="add" placeholder="e.g., 0x12Fh...">
             <button type="button" class="btn btn-info" onclick="App.customer()">CUSTOMER</button>
         </div>
-        <div id="menu7" class="tab-pane fade">
+        <!--<div id="menu7" class="tab-pane fade">
             <label for="id"> ETHER VALUE</label><br>
             <input type="text" id="ether" class="w3-input w3-hover-green"  placeholder="e.g., PR1" required/><br>
                      
@@ -67,7 +67,7 @@
         
             <br><br><button type="button" class="btn btn-success" onclick="App.sendether()">ADD</button>
             <button type="button" class="btn btn-success" onclick="App.balance()">BALANCE</button><br>
-        </div>
+        </div>-->
         <div id="menu8" class="tab-pane fade">
             <label for="ord id">ORDER ID</label><br>
             <input type="text" id="orid"><br>
@@ -79,7 +79,8 @@
             <input type="text" id="cid"><br>
             <label for="quantity">Quantity:</label><br>
             <input type="text" id="qnty"><br>
-            
+            <label for="èther">ETHER</label><br>
+            <input type="text" id="ether" class="w3-input w3-hover-green"  placeholder="e.g., PR1" required/><br>
             <br><br><button type="button"  id="addbtn"onclick="App.Cutomerorder()">ORDER</button> 
         </div>
     </div>

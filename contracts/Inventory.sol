@@ -12,8 +12,7 @@ contract Inventory is owned,BasicToken{
    uint256 public productCount=0;
    uint256[] public p_id;
    uint256[] public o_id;
-   uint256[] public pur_id;
-     
+    
     struct product{
         uint pid;
         string pname;
@@ -32,25 +31,21 @@ contract Inventory is owned,BasicToken{
              string brand;
              uint quantity;
              uint price;
-             uint tprice;
             }
         
        
         
         struct in_order{
             uint ipid;
-            string ipname;
-            string brands;
             uint iquantity;
             uint iprice;
-            uint itprice;
            }
       
                           
     mapping(address=>address)public CUST;
     mapping(uint=>product)public PROD;
     mapping(uint=>productorder)public ORDER;
-    mapping(uint=>in_order)public PURCHASE;
+    mapping(uint=>in_order)public UPDATE;
     
     
     function cust(address id)public returns(address){
@@ -83,20 +78,19 @@ contract Inventory is owned,BasicToken{
        return p_id[_id];
    }
 
-    function order(uint id2,uint id,address id1,uint pquantity)public  {
-           require(id ==PURCHASE[id].ipid && pquantity <= PURCHASE[id].iquantity);
+    function order(uint id2,uint id,address id1,uint pquantity)public payable {
+        
+           require(id ==PROD[id].pid && pquantity <= PROD[id].pquantity);
            require(id1 == CUST[id1]);
            ORDER[id2].id2 = id2;
            ORDER[id2].cid = id1;
            ORDER[id2].id=id;
-           ORDER[id2].name =PURCHASE[id].ipname ;
-           ORDER[id2].brand =  PURCHASE[id].brands;
+           ORDER[id2].name =PROD[id].pname ;
+           ORDER[id2].brand =  PROD[id].pbrand;
            ORDER[id2].quantity=pquantity;
-           ORDER[id2].price = pquantity *  PURCHASE[id].iprice; 
-           ORDER[id2].tprice += ORDER[id2].price ;
-           PURCHASE[id].iquantity-=pquantity;
-           balances[msg.sender] -= ORDER[id2].tprice; 
-           balances[owner] += ORDER[id2].tprice;
+           ORDER[id2].price = pquantity *  PROD[id].pprice; 
+           PROD[id].pquantity-=pquantity;
+           owner.transfer(msg.value);
            o_id.push(id2);
            
           
@@ -107,48 +101,30 @@ contract Inventory is owned,BasicToken{
     }
      
    
-    function purchase_order(uint id,string p_name,string brands,uint _quantity,uint price)public onlyOwner returns(uint,string,string,uint,uint) {
-       PURCHASE[id].ipid = id;
-       PURCHASE[id].ipname = p_name;
-       PURCHASE[id].brands =brands;
-       PURCHASE[id].iquantity = _quantity;
-       PURCHASE[id].iprice = price;
-       PURCHASE[id].itprice = _quantity * price;
-       balances[owner] -= PURCHASE[id].itprice;
-       pur_id.push(id);
+    function update_product(uint id,uint _quantity)public onlyOwner  {
+       require(PROD[id].pquantity<=0);
+       UPDATE[id].ipid = id;
+      
+       UPDATE[id].iquantity = _quantity;
+       PROD[id].pquantity+=_quantity;
 
-       return ( PURCHASE[id].ipid, PURCHASE[id].ipname,PURCHASE[id].brands, PURCHASE[id].iquantity,PURCHASE[id].iprice);
        }
-       
-       function purchaseOrder()public view returns(uint256){
-            return pur_id.length;
-       }
-       //function addproducts(uint id,string name,string brandname,uint quantity)onlyOwner public{
-         //  require(quantity <=PURCHASE[id].iquantity);
-         //  require(keccak256(name) == keccak256(PROD[id].pname) && keccak256(brandname) == keccak256(PROD[id].pbrand) );
-               
-              // PROD[id].pquantity += quantity;
-              // PURCHASE[id].iquantity -= quantity;
-              // PROD[id].pprice=PURCHASE[id].iprice;
-         //}
+      
          
        function viewproduct(uint id)public constant returns(uint,string,string,uint,uint){
            
            return(PROD[id].pid,PROD[id].pname,PROD[id].pbrand,  PROD[id].pquantity,PROD[id].pprice);
        } 
        
-       function vieworder(uint id2)public constant returns(uint,address,string,string,uint,uint,uint){
+       function vieworder(uint id2)public constant returns(uint,address,string,string,uint,uint){
            
-           return (ORDER[id2].id2,ORDER[id2].cid, ORDER[id2].name, ORDER[id2].brand,ORDER[id2].quantity,ORDER[id2].price,ORDER[id2].tprice);
+           return (ORDER[id2].id2,ORDER[id2].cid, ORDER[id2].name, ORDER[id2].brand,ORDER[id2].quantity,ORDER[id2].price);
        }
        
-       
-       function viewpurchase(uint id)public constant returns(uint,string,string,uint,uint){
-           
-           return( PURCHASE[id].ipid, PURCHASE[id].ipname,PURCHASE[id].brands, PURCHASE[id].iquantity,PURCHASE[id].iprice);
-           
-       }   
-    
+       function outOfStock(uint id)public constant returns(uint,uint){
+            require(PROD[id].pquantity==0);
+            return (PROD[id].pid,PROD[id].pquantity);
+       }  
 }
    
      

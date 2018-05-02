@@ -9,23 +9,73 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="../app.js"></script>
+
 </head>
 <body>
+        <style>
+            input {
+    border: 5px solid white; 
+    -webkit-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    -moz-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    padding: 15px;
+    background:gainsboro;
+    margin: 0 0 10px 0;
+}
+                body {
+                   background:url("B.JPG");
+                    background-size: 1900px 1000px;
+                }
+                 .aa,.aa9
+                {
+                    font-size: 16pt;
+                    height: 50px;
+                }
+                .a{
+                    font-size: 16pt; 
+                }
+                .btn:hover {
+                    background-color:slategray;
+                    opacity: 0.3;
+                }
+                .btn{
+                    font-size: 13pt;
+                    height: 30px;
+                    background-color:lightseagreen;
+                    color: snow;
+                    cursor: pointer;
+                    
+                }
+                .nav{
+                    font-size: 13pt;
+                    
+                }
+                </style>
     <div class="container">
-        <center><h2>Inventory Management</h2></center>
-        <a href="..\app\index.html"><button class="btn btn-success" style="float:right;"><b style="color:black;">HOME</b></button></a>
+        
+         <center><h2><b>INVENTORY MANAGEMENT</h2></center><BR><BR>
+        
+        <a href="..\app\index.html"><button class="btn" style="float:right;"><b style="color:black;"><b class="fa fa-home">HOME</b></b></button></a>
          <p></p>
          <b style="color:black;">
         <ul class="nav nav-tabs">
          
-          <li><a data-toggle="tab" href="#menu1">Product</a></li>
-          <li><a data-toggle="tab" href="#menu2">Update Product</a></li>
-          <li><a data-toggle="tab" href="#menu4">View Customer order</a></li>
-          <li><a data-toggle="tab" href="#menu5">Stock Products</a></li>
-          <li><a data-toggle="tab" href="#menu8">Out Of Stocks</a></li>
+                    
+          <li><a data-toggle="tab" href="#menu1"><font color="BLUE">Product </font></a></li>
+          <li><a data-toggle="tab" href="#menu2"><font color="blue">Update Product</font></a></li>
+          <li><a data-toggle="tab" href="#menu4"><font color="blue">View Customer order</font></a></li>
+          <li><a data-toggle="tab" href="#menu5"><font color="blue">Stock Products</font></a></li>
+          <li><a data-toggle="tab" href="#menu8"><font color="blue">Out Of Stocks</font></a></li>
         </ul></b>
       
         <div class="tab-content">
@@ -40,70 +90,43 @@
           
       
            <div id="menu1" class="tab-pane fade">
-      
-                <label for="id">   PRODUCT ID</label><br>
-                <input type="text" id="id1" class="aa"  placeholder="e.g., PR1" required/><br>
+           
+                <label for="id" class="a"> PRODUCT ID</label><br>
+                <input type="text" id="id1" class="aa" minlength="1" maxlength="4"  placeholder="e.g., 1" onkeypress="return isNumberKey(event)"  required/><br>
               
-                <label for="name"> NAME</label><br>
-                <input type="text" id="name1" class="aa9" placeholder="e.g., LAP"><br>
+                <label for="name"  class="a"> NAME</label><br>
+                <input type="text" id="name1" class="aa" placeholder="e.g., LAP" onKeyPress="return ValidateAlpha(event);" ><br>
               
               
-                <label for="brand">BRAND</label><br>
-                <input type="text" id="brand1" class="aa" placeholder="e.g., DELL"><br>
+                <label for="brand"  class="a">BRAND</label><br>
+                <input type="text" id="brand1" class="aa" placeholder="e.g., DELL" onKeyPress="return ValidateAlpha(event);" ><br>
 
-                <label for="quantity">Quantity:</label><br>
-                <input type="text" id="quantity1" placeholder="e.g., 20"><br>
+                <label for="quantity"  class="a">Quantity:</label><br>
+                <input type="text" id="quantity1"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br>
                     
-                <label for="price">Amount:</label><br>
-                <input type="text" id="price1" placeholder="e.g., 95"><br>
-              
-          
-                <br><br><button type="button" class="btn btn-success" onclick="App.product()">ADD</button>
-                <button type="button" class="btn btn-danger">CANCEL</button><br>
-          </div>
-      
-      
-         
-          
-           <div id="menu2" class="tab-pane fade">
-      
-      
+                <label for="price"  class="a">Amount:</label><br>
+                <input type="text" id="price1"  class="aa"  minlength="1" maxlength="2"  onkeypress="return isNumberKey(event)" ><br>
                 
-                          <label for="id">Product Id:</label><br>
-                          <td><input type="text" id="id" placeholder="e.g., PR1"><br>
-                     
-                          <label for="quantity">Quantity:</label><br>
-                          <input type="text" id="quantity" placeholder="e.g., 20"><br>
-                      
-                  <br><br><button type="button" class="btn tn-success" onclick="App.purchase()">Update</button> <br> 
-           </div>
-      
-          
-          
-             
-      
-          <div id="menu3" class="tab-pane fade">
-              <label for="id">   PRODUCT ID</label><br>
-              <input type="text" id="id4" class="w3-input w3-hover-green"  placeholder="e.g., PR1" required/><br>
-                                  
-              <label for="name"> NAME</label><br>
-              <input type="text" id="addname" class="w3-input w3-hover-green" placeholder="e.g., LAP"><br>
-                                  
-             <label for="brand">BRAND</label><br>
-             <input type="text" id="addbrand" class="w3-input w3-hover-green" placeholder="e.g., DELL"><br>
-                                  
-             <label for="quantity">QUANTITY</label><br>
-             <input type="text" id="addquantity" class="w3-input w3-hover-green" placeholder="e.g., 50000"><br>
-                                 
-             <label for="price">PRICE</label><br>
-             <input type="text" id="addprice" class="w3-input w3-hover-green" placeholder="e.g., 50000"><br>
-                                  
-             <br><br><button type="button" class="btn btn-success" onclick="App.Addproduct()">ADD</button><br><br>
+                <br><br><button type="button" class="btn" onclick="App.product()"><b style="color:black;">ADD</b></button>
+                
+         
           </div>
-      
-          
-          <div id="menu4" class="tab-pane fade">
-                          
+                    
+          <div id="menu2" class="tab-pane fade">
+                <label for="id"  class="a">Product Id:</label><br>
+                <td><input type="text" id="id"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br>
+                     
+                <label for="quantity"  class="a">Quantity:</label><br>
+                <input type="text" id="quantity"  class="aa" minlength="1" maxlength="4"  onkeypress="return isNumberKey(event)" ><br>
+
+                <label for="price"  class="a">Price:</label><br>
+                <input type="text" id="Price"  class="aa"  minlength="1" maxlength="2"  onkeypress="return isNumberKey(event)" ><br>
+                      
+                <br><br><button type="button" class="btn" onclick="App.purchase()"><b style="color:black;">UPDATE</b></button> <br> 
+           </div>
+                                 
+        <div id="menu4" class="tab-pane fade">
+               
               <table class="table table-striped" >
                   <thead> 
                       <tr><th>Order Id</th>
@@ -112,15 +135,14 @@
                           <th>Product Brand</th>
                           <th>Quantity</th>
                           <th>Price</th>
+                          <th>Date</th>
                       </tr>
                   </thead>
                   <tbody id="order_list"></tbody>
               </table>
-              <br><br><button type="button" class="btn btn-success" onclick="App.Vieworder()">VIEW</button>  <br>
+              <br><br><button type="button" class="btn" onclick="App.Vieworder()"><b style="color:black;">VIEW</b></button>  <br>
             </div>
-      
-      
-            
+                        
                 <div id="menu5" class="tab-pane fade">
          
                   <table class="table table-striped" >
@@ -129,11 +151,13 @@
                               <th>Product Name</th>
                               <th>Product Brand</th>
                               <th>Product Quantity</th>
-                              <th>Product Price</th></tr>
+                              <th>Product Price</th>
+                              <th>Date</th>
+                            </tr>
                       </thead>
                       <tbody id="product_list"></tbody>
                   </table>
-                  <br><br><button type="button" class="btn btn-success"onclick="App.ViewProduct();" id="addbtn">VIEW</button>  
+                  <br><br><button type="button" class="btn"onclick="App.ViewProduct();" id="addbtn"><b style="color:black;">VIEW</b></button>  
                                   
             </div>
             <div id="menu8" class="tab-pane fade">
@@ -146,10 +170,33 @@
                       </thead>
                       <tbody id="reg_list"></tbody>
                   </table>
-                  <br><br><button type="button" class="btn btn-success"onclick="App. outofstock();" id="addbtn">VIEW</button>  
+                  <br><br><button type="button" class="btn"onclick="App. outofstock();" id="addbtn"><b style="color:black;">VIEW</b></button>  
                                   
             </div>
             
       </div>
+      
+   <script>
+       function myFunction() {
+    document.getElementById("menu1").reset();
+}
+     
+    function ValidateAlpha(evt)
+    {
+        var keyCode = (evt.which) ? evt.which : evt.keyCode
+        if ((keyCode < 65 || keyCode > 90) && (keyCode < 97 || keyCode > 123) && keyCode != 32)
+         return false;
+            return true;
+    }
+    function isNumberKey(evt){  
+   	var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode != 46 && charCode > 31 
+	&& (charCode < 48 || charCode > 57))
+        return false;
+        return true;
+	}
+
+
+   </script>   
 </body>
 </html>

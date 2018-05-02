@@ -3,6 +3,7 @@ pragma solidity ^0.4.0;
 import "./owned.sol";
 import "./BasicToken.sol";
 
+
  
 contract Inventory is owned,BasicToken{
      
@@ -19,6 +20,7 @@ contract Inventory is owned,BasicToken{
         string pbrand;
         uint pquantity;
         uint pprice;
+        uint time;
        }
      
     
@@ -31,6 +33,7 @@ contract Inventory is owned,BasicToken{
              string brand;
              uint quantity;
              uint price;
+             uint time;
             }
         
        
@@ -47,6 +50,8 @@ contract Inventory is owned,BasicToken{
     mapping(uint=>productorder)public ORDER;
     mapping(uint=>in_order)public UPDATE;
     
+
+    
     
     function cust(address id)public returns(address){
         CUST[id]=id;
@@ -54,14 +59,14 @@ contract Inventory is owned,BasicToken{
     }
     
          
-    function p_details(uint id,string name,string brand,uint quantity,uint price)public onlyOwner   {
-     
+    function p_details(uint id,string name,string brand,uint quantity,uint price)public  payable onlyOwner   {
         require(PROD[id].pid!=id);
         PROD[id].pid = id;
         PROD[id].pname = name;
         PROD[id].pbrand = brand;
         PROD[id].pquantity = quantity;
         PROD[id].pprice = price;
+        PROD[id].time = now;
         productCount++;
         p_id.push(id);
         
@@ -89,7 +94,9 @@ contract Inventory is owned,BasicToken{
            ORDER[id2].brand =  PROD[id].pbrand;
            ORDER[id2].quantity=pquantity;
            ORDER[id2].price = pquantity *  PROD[id].pprice; 
+           ORDER[id2].time = now;
            PROD[id].pquantity-=pquantity;
+           
            owner.transfer(msg.value);
            o_id.push(id2);
            
@@ -101,30 +108,39 @@ contract Inventory is owned,BasicToken{
     }
      
    
-    function update_product(uint id,uint _quantity)public onlyOwner  {
-       require(PROD[id].pquantity<=0);
+    function update_product(uint id,uint _quantity,uint price)public onlyOwner  {
+       
        UPDATE[id].ipid = id;
-      
        UPDATE[id].iquantity = _quantity;
+       UPDATE[id].iprice = price;
        PROD[id].pquantity+=_quantity;
+        PROD[id].pprice= price;
+       
 
        }
       
          
-       function viewproduct(uint id)public constant returns(uint,string,string,uint,uint){
+       function viewproduct(uint id)public constant returns(uint,string,string,uint,uint,uint){
            
-           return(PROD[id].pid,PROD[id].pname,PROD[id].pbrand,  PROD[id].pquantity,PROD[id].pprice);
+           return(PROD[id].pid,PROD[id].pname,PROD[id].pbrand,  PROD[id].pquantity,PROD[id].pprice,PROD[id].time);
        } 
        
-       function vieworder(uint id2)public constant returns(uint,address,string,string,uint,uint){
+       function vieworder(uint id2)public constant returns(uint,address,string,string,uint,uint,uint){
            
-           return (ORDER[id2].id2,ORDER[id2].cid, ORDER[id2].name, ORDER[id2].brand,ORDER[id2].quantity,ORDER[id2].price);
+           return (ORDER[id2].id2,ORDER[id2].cid, ORDER[id2].name, ORDER[id2].brand,ORDER[id2].quantity,ORDER[id2].price, ORDER[id2].time);
        }
        
        function outOfStock(uint id)public constant returns(uint,uint){
             require(PROD[id].pquantity==0);
             return (PROD[id].pid,PROD[id].pquantity);
-       }  
+       }
+       
+       
+      
+        
+         
+         
+    
 }
    
      

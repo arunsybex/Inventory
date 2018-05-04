@@ -14,11 +14,14 @@ input {
   width: 500px;
   padding: 5px;
   font-size: 16px;
+  height:500px;
+
 }
 
 button {
   font-size: 16px;
   padding: 5px;
+  color:black;
 }
 
 h1, h2 {

@@ -1,24 +1,9 @@
-// Import the page's CSS. Webpack will know what to do with it.
-
-
-// Import libraries we need.
 import { default as Web3} from 'web3'
 import { default as contract } from 'truffle-contract'
-
-// Import our contract artifacts and turn them into usable abstractions.
-
-//import BasicToken from '../../build/contracts/BasicToken.json'
 import Inventory from '../../build/contracts/Inventory.json'
-//import Owned from '../../build/contracts/owned.json'
 
-// MetaCoin is our usable abstraction, which we'll use through the code below.
-
-//var tokens = contract(BasicToken);
 var inventory = contract(Inventory);
-//var owned = contract(Owned);
-// The following code is simple to show off interacting with your contracts.
-// As your needs grow you will likely need to change its form and structure.
-// For application bootstrapping, check out window.addEventListener below.
+
 var accounts;
 var account;
 var cus;
@@ -26,18 +11,13 @@ var productList;
 var productCount;
 var productId;
 var price;
+
 window.App = {
   start: function() {
     var self = this;
-    var r=11;
-    
-
-    // Bootstrap the MetaCoin abstraction for Use.
-   //tokens.setProvider(web3.currentProvider);
+    var r=11;     
     inventory.setProvider(web3.currentProvider);
-
-    // Get the initial account balance so it can be displayed.
-    web3.eth.getAccounts(function(err, accs) {
+      web3.eth.getAccounts(function(err, accs) {
       if (err != null) {
         alert("There was an error fetching your accounts.");
         return;
@@ -50,9 +30,13 @@ window.App = {
       accounts = accs;
       account = accounts[0];
       
-      //self.ViewProduct();
-      // self.product();
-      //self.outofstock();
+      self.Vieworder();
+      self.viewproduct();
+      self.ViewProduct();
+      self.outofstock();
+      self.View();
+      self.productid();
+   
     });
   },
 
@@ -65,11 +49,9 @@ window.App = {
         return meta.totalSupply();
         
       }).then(function(re){
-        //var amount = document.getElementById("ts");
         console.log(re);
         document.getElementById("ts").value=re;
-        //amonut.value = t;
-      }).catch(function(e){
+        }).catch(function(e){
         console.log(e);
       });
     },
@@ -82,14 +64,10 @@ window.App = {
         meta = instance;
         return meta.balanceOf(owner);
       }).then(function(result) {
-        // self.setStatus("Transaction complete!");
-        document.getElementById("ba").value=result;
-        
-         //self.refreshBalance();
-       }).catch(function(e) {
+          document.getElementById("ba").value=result;
+        }).catch(function(e) {
          console.log(e);
-         //self.setStatus("Error sending coin; see log.");
-       });
+           });
      },
 
      transfer:function(){
@@ -97,20 +75,15 @@ window.App = {
        var meta;
        var toaddress =document.getElementById("toaddress").value;
        var value = parseInt(document.getElementById("value").value); 
-       
-       
+             
        inventory.deployed().then(function(instance){
         meta = instance;
         return meta.transfer(toaddress,value,{from:account,gas:6000000});
       }).then(function(result) {
-      
-        // self.setStatus("Transaction complete!");
-        var res=document.getElementById("ts").value = result;
-       
-         
-       }).catch(function(e) {
+         var res=document.getElementById("ts").value = result;
+         }).catch(function(e) {
          console.log(e);
-         //self.setStatus("Error sending coin; see log.");
+         
        });
      },
       
@@ -121,31 +94,25 @@ window.App = {
     inventory.deployed().then(function(instance){
      meta = instance;
      return meta.sendEther({from:account,value:web3.toWei(ether,"ether"),gas:6000000});
-   }).then(function(result) {
-     // self.setStatus("Transaction complete!");
-     
+   }).then(function(result) {       
      document.getElementById("ba").value=result;
-     
-     
-    }).catch(function(e) {
+         }).catch(function(e) {
       console.log(e);
-      //self.setStatus("Error sending coin; see log.");
-    });
-  },
+      });
+     },
+
       customer: function(){
       var self = this;
       var meta;
-      var add = document.getElementById("add").value;
         
         inventory.deployed().then(function(instance){
           meta = instance;
-          return meta.cust(add,{from:account,gas:6000000});
+          return meta.cust({from:account,gas:6000000});
         }).then(function(result) {
-                              
+                alert('registered');              
          }).catch(function(e) {
            console.log(e);
-           //self.setStatus("Error sending coin; see log.");
-         });
+           });
        },  
 
        product: function(){
@@ -156,8 +123,7 @@ window.App = {
         var c = document.getElementById("brand1").value;
         var d = parseInt(document.getElementById("quantity1").value);
         var price = parseInt(document.getElementById("price1").value);
-        
-     
+
           inventory.deployed().then(function(instance){
             meta = instance;
             return meta.p_details(a,b,c,d,price,{from:account,gas:6000000});
@@ -175,15 +141,12 @@ window.App = {
           var meta;
           var a = parseInt(document.getElementById("orid").value);
           var b = parseInt(document.getElementById("id2").value);
-          var c = document.getElementById("cid").value;
           var d = parseInt(document.getElementById("qnty").value);
-          //var x = d.value * price.value;
           var e = parseInt(document.getElementById("ether").value);
-         //var e = parseInt(x.value);
-         
+                  
           inventory.deployed().then(function(instance){
             meta = instance;
-            return meta.order(a,b,c,d,{from:account,value:web3.toWei(e,"ether"),gas:6000000});
+            return meta.order(a,b,d,{from:account,value:web3.toWei(e,"ether"),gas:6000000});
             
           }).then(function(result) {
             alert("ordered");
@@ -201,8 +164,7 @@ window.App = {
           var a = parseInt(document.getElementById("id").value);
           var d = parseInt(document.getElementById("quantity").value);
           var e = parseInt(document.getElementById("Price").value);
-         
-          
+                   
           inventory.deployed().then(function(instance){
             meta = instance;
             return meta.update_product(a,d,e,{from:account,gas:6000000});
@@ -210,7 +172,7 @@ window.App = {
             console.log(result);  
            }).catch(function(e) {
              console.log(e);
-             //self.setStatus("Error sending coin; see log.");
+            
            });
 
          },
@@ -223,42 +185,56 @@ window.App = {
                 return meta.getProductsCount();
               }).then(function(val) {
                 console.log(val);
-                //$.each(val,function(err,data){
-                  for(let i=1;i<=val;i++){
+                for(let i=1;i<=val;i++){
                  meta.viewproduct(i).then(function(result){
-                  var myDate = new Date( (result[5].toNumber()) *1000);
-                  var a=(myDate.toLocaleString());
-                  $("#product_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+a.split(',')[0]+'</td></tr>');
-                })
+                    var myDate = new Date( (result[5].toNumber()) *1000);
+                    var a=(myDate.toLocaleString());
+                    // document.getElementById('id1').value = parseInt(result[0])+1;
+                    // console.log(parseInt([0])+1);
+                    $("#product_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+a.split(',')[0]+'</td></tr>');
+                }).catch(function(e) {
+                  
+                });
               }
-                //})
-               
+                    
              });
-                   
-          
+                  
+                  
+        },
+        productid: function(){
+          var self = this;
+          var meta;
+        
+          inventory.deployed().then(function(instance){
+            meta = instance;
+              return meta.getProductsCount();
+          }).then(function(val){
             
+              document.getElementById('id1').value = parseInt(val)+1;
+              console.log(parseInt(val)+1);
+          }).catch(function(e){
+
+          });
         },
            
         Vieworder :function(){
               var self = this;
               var meta;
-             // var a =parseInt(document.getElementById("orid").value);
-              $("#order_list").html('')
+             $("#order_list").html('')
               inventory.deployed().then(function(instance){
                 meta = instance;
                 return meta.getOrderCount();
               }).then(function(val) {
                 for(let i=1;i<=val;i++){
                   meta.vieworder(i).then(function(result){
-                    var myDate = new Date( (result[6].toNumber()) *1000);
+                  var myDate = new Date( (result[6].toNumber()) *1000);
                   var a=(myDate.toLocaleString());
                     $("#order_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+a.split(',')[0]+'</td></tr>');
                  })
                 }
               }).catch(function(e) {
                  console.log(e);
-                 //self.setStatus("Error sending coin; see log.");
-               });
+                 });
               },
       
        outofstock :function(){
@@ -270,34 +246,92 @@ window.App = {
                   return meta.getProductsCount();
               }).then(function(val){
                   for(let i=1;i<=val;i++){
-                   
-                    meta.outOfStock(i).then(function(result){
-                      $("#reg_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] +'</td></tr>');
-                    })
+                    meta.outOfStock(i).then(function(result,err){
+                    if(parseInt(result[1])==0)
+                    $("#reg_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] +'</td></tr>');
+                    }).catch(function(err) {
+                    });
                   }
-                 // $("#reg_list").append('<tr><td>' +result[0]+'</td><td>'+ result[3] +'</td></tr>');
-              })
+                })
             },
-            View :function(){
-              var self = this;
+            
+
+          proamount:function(){
+            var self = this;
               var meta;
-              $("#product_list").html('')
+              var a = document.getElementById("id2").value;
               inventory.deployed().then(function(instance){
                 meta = instance;
-                  return meta.getProductsCount();
-                }).then(function(val) {
-                  console.log(val);
-                  //$.each(val,function(err,data){
-                    for(let i=1;i<=val;i++){
-                   meta.viewproduct(i).then(function(result){
-                    
-                    $("#product_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td></tr>');
-                  })
-                }
-                  //})
-                 
-               });
+                return meta.view1(a);
+
+              }).then(function(val){
+                var azz=parseInt(val);
+                console.log(parseInt(val));
+
+            var az = document.getElementById("qnty").value;
+            console.log(az*azz);
+
+            document.getElementById("ether").value=az*azz;
+          })
+          },
+
+          View :function(){
+            var self = this;
+            var meta;
+            $("#order_list1").html('')
+            inventory.deployed().then(function(instance){
+              meta = instance;
+              return meta.getOrderCount();
+            }).then(function(val) {
+              for(let i=0;i<=val;i++){
+                meta.vieworder(i).then(function(result){
+                 var myDate = new Date( (result[6].toNumber()) *1000);
+                var a=(myDate.toLocaleString());
+               document.getElementById('orid').value = parseInt(result[0])+1;
+               console.log(parseInt(result[0])+1);
+                if(result[1]==account)
+                  $("#order_list1").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+a.split(',')[0]+'</td></tr>');
+               }).catch(function(e) {
+               
+              });
               }
+            })
+            },
+
+              viewproduct :function(){
+                var self = this;
+                var meta;
+                $("#product_list2").html('')
+                inventory.deployed().then(function(instance){
+                  meta = instance;
+                    return meta.getProductsCount();
+                  }).then(function(val) {
+                    console.log(val);
+                    for(let i=1;i<=val;i++){
+                    meta.viewproduct(i).then(function(result){
+                    $("#product_list2").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td></tr>');
+                    })
+                  }
+                  });
+                },
+
+            refresh:function(){
+              var self = this;
+              self.View();
+              document.getElementById("id2").value = "";
+               document.getElementById("qnty").value = "";
+              document.getElementById("ether").value = "";
+            },
+
+            clear:function(){
+              var self = this;
+              self.productid();
+              document.getElementById("name1").value = "";
+               document.getElementById("quantity1").value = "";
+              document.getElementById("brand1").value = "";
+              document.getElementById("price1").value = "";
+            }  
+
       }, 
   
    window.addEventListener('load', function() {

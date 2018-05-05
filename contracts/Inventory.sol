@@ -13,7 +13,7 @@ contract Inventory is owned,BasicToken{
    uint256 public productCount=0;
    uint256[] public p_id;
    uint256[] public o_id;
-    
+   
     struct product{
         uint pid;
         string pname;
@@ -22,6 +22,7 @@ contract Inventory is owned,BasicToken{
         uint pprice;
         uint time;
        }
+
      
     
        
@@ -50,12 +51,14 @@ contract Inventory is owned,BasicToken{
     mapping(uint=>productorder)public ORDER;
     mapping(uint=>in_order)public UPDATE;
     
-
+    function view1(uint id)public constant returns(uint){
+         return (PROD[id].pprice);
+     }
     
     
-    function cust(address id)public returns(address){
-        CUST[id]=id;
-        return CUST[id];
+    function cust()public returns(address) {
+        CUST[msg.sender] = msg.sender;
+        return CUST[msg.sender];
     }
     
          
@@ -83,12 +86,12 @@ contract Inventory is owned,BasicToken{
        return p_id[_id];
    }
 
-    function order(uint id2,uint id,address id1,uint pquantity)public payable {
+    function order(uint id2,uint id,uint pquantity)public payable {
         
            require(id ==PROD[id].pid && pquantity <= PROD[id].pquantity);
-           require(id1 == CUST[id1]);
+           require(msg.sender==CUST[msg.sender] );
            ORDER[id2].id2 = id2;
-           ORDER[id2].cid = id1;
+           ORDER[id2].cid = msg.sender;
            ORDER[id2].id=id;
            ORDER[id2].name =PROD[id].pname ;
            ORDER[id2].brand =  PROD[id].pbrand;
@@ -98,11 +101,11 @@ contract Inventory is owned,BasicToken{
            PROD[id].pquantity-=pquantity;
            
            owner.transfer(msg.value);
+
            o_id.push(id2);
            
-          
     }
-
+    
     function getOrderCount()public view returns(uint256){
         return o_id.length;
     }
@@ -144,3 +147,4 @@ contract Inventory is owned,BasicToken{
 }
    
      
+ 

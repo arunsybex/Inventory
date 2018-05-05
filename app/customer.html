@@ -58,6 +58,24 @@
                     font-size: 13pt;
                     
                 }
+                article {
+                    margin-left: 400px;
+                    
+                padding: 1em;
+              overflow: hidden;
+             }
+             .design{
+                float: left;
+    max-width: 300px;
+    margin: 0;
+    padding: 1em;
+             }
+             .order {
+                    margin-left: 400px;
+                    
+                padding: 1em;
+              overflow: hidden;
+             }
                 </style>
    
  <div class="container">
@@ -66,48 +84,66 @@
    <p></p>
    <b style="color:black;">
   <ul class="nav nav-tabs">
-    <li><a data-toggle="tab" href="#menu6"><font color="BLUE">Customer</font></a></li>
+    <li><a data-toggle="tab" href="#menu5"><font color="blue">Customer Register</font></a></li>
     <li><a data-toggle="tab" href="#menu8"><font color="blue">Customer Purchase</font></a></li>
-    <li><a data-toggle="tab" href="#menu5"><font color="blue">ViewProduct</font></a></li>
-    
   </ul></b>
 
   <div class="tab-content">
-          <div id="menu5" class="tab-pane fade">
-   
-            <table class="table table-striped" >
-                <thead> 
-                    <tr><th>Product Id</th>
-                        <th>Product Name</th>
-                        <th>Product Brand</th>
-                        <th>Product Quantity</th>
-                        <th>Product Price</th></tr>
-                </thead>
-                <tbody id="product_list"></tbody>
-            </table>
-            <br><br><button type="button" class="btn btn-success"onclick="App.View();" id="addbtn"><b style="color:black;">VIEW</b></button>  
                             
-      </div>
-      <div id="menu6" class="tab-pane fade">
-            <label for="address" class="y" >Customer Address:</label><br>
-            <input type="text" id="add"  class="aa"  placeholder="e.g., 0x12Fh..." ><br>
-            <button type="button" class="btn btn-info" onclick="App.customer()"><b style="color:black;">CUSTOMER</b></button>
-        </div>
+       <div id="menu5" class="tab-pane fade">
+        <p style="font-size:20px;margin-top:20px">Click register button</p>
+        <button type="button" class="btn btn-info"  onclick="App.customer()"><b style="color:black;">REGISTER</b></button><br><br>
+
+       </div>
+      
         
         <div id="menu8" class="tab-pane fade">
+          <div class="design">
+               
             <label for="ord id" class="y">ORDER ID</label><br>
-            <input type="text" id="orid"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" placeholder="e.g.,1" ><br>
+            <input type="text" id="orid"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br>
         
             <label for="pro id" class="y">PRODUCT ID</label><br>
-            <input type="text" id="id2"   class="aa" minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" placeholder="e.g.,1" ><br>
-            
-            <label for="cust id" class="y">CUSTOMER Id</label><br>
-            <input type="text" id="cid"  class="aa"   placeholder="e.g.,01xef34.."><br>
+            <input type="text" id="id2"   class="aa" minlength="1" maxlength="4" onkeyup="return isNumberKey(event);"placeholder="e.g.,1" ><br>
             <label for="quantity" class="y">Quantity:</label><br>
-            <input type="text" id="qnty"  class="aa" minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" placeholder="e.g.,6" ><br>
-            <label for="èther" class="y">ETHER</label><br>
-            <input type="text" id="ether" class="aa" minlength="1" maxlength="2"  onkeypress="return isNumberKey(event)" required/><br>
-            <br><br><button type="button"  class="btn" id="addbtn"onclick="App.Cutomerorder()"><b style="color:black;">ORDER</b></button> 
+            <input type="text" id="qnty"  class="aa" minlength="1" maxlength="4" onkeyup="return isNumberKey(event),App.proamount()" placeholder="e.g.,6" ><br>
+            <label for="ether" class="y">Amount:</label><br>
+            <input type="text" id="ether"  class="aa" minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br>
+            <br><br><button type="button"  class="btn"   id="addbtn" onclick="App.Cutomerorder()"><b style="color:black;">ORDER</b></button> 
+            <button class="btn btn-info" onclick="App.refresh()"><b style="color:black;">REFRESH</b></button>
+        </div> 
+           <article>
+                <table class="table table-striped" >
+                        <thead> 
+                            <tr><th>Product Id</th>
+                                <th>Product Name</th>
+                                <th>Product Brand</th>
+                                <th>Product Quantity</th>
+                                <th>Product Price</th></tr>
+                        </thead>
+                        <tbody id="product_list2"></tbody>
+                    </table>
+                    
+                
+              </article>
+              <article class="order">
+                    <table class="table table-striped" >
+                            <thead> 
+                                <tr><th>Order Id</th>
+                                    <th>Customer Id</th>
+                                    <th>Product Name</th>
+                                    <th>Product Brand</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="order_list1"></tbody>
+                        </table>
+                        <!--<br><br><button type="button"  class="btn" id="addbtn"  onclick="App.View()"><b style="color:black;">View</b></button> -->
+                      </div>
+                    
+                  </article>
         </div>
     </div>
 </div>
@@ -119,6 +155,17 @@ function isNumberKey(evt){
      return false;
      return true;
  }
+
+
+var seq=0;
+document.getElementById("orid").value = seq;
+function myFunction() {
+seq=seq+1;
+document.getElementById("orid").value = seq;   
+}
+
+
+
 
 
 </script>   

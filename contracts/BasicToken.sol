@@ -19,7 +19,7 @@ contract BasicToken  {
     uint public rate=0.1 ether;
 
 
-  mapping(address => uint256) balances;
+  mapping(address => uint256) public balances;
 
  
   function BasicToken()public{

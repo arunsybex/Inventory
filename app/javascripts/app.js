@@ -11,6 +11,7 @@ var productList;
 var productCount;
 var productId;
 var price;
+var search="";
 
 window.App = {
   start: function() {
@@ -31,11 +32,12 @@ window.App = {
       account = accounts[0];
       
       self.Vieworder();
-      self.viewproduct();
+      self.Custmerproduct();
       self.ViewProduct();
       self.outofstock();
       self.View();
       self.productid();
+      self. Ordercancel_list();
    
     });
   },
@@ -109,7 +111,7 @@ window.App = {
           meta = instance;
           return meta.cust({from:account,gas:6000000});
         }).then(function(result) {
-                alert('registered');              
+                             
          }).catch(function(e) {
            console.log(e);
            });
@@ -126,7 +128,7 @@ window.App = {
 
           inventory.deployed().then(function(instance){
             meta = instance;
-            return meta.p_details(a,b,c,d,price,{from:account,gas:6000000});
+            return meta.p_details(a,b.toUpperCase(),c.toUpperCase(),d,price,{from:account,gas:6000000});
            
           }).then(function(result) {
               console.log(result); 
@@ -189,8 +191,8 @@ window.App = {
                  meta.viewproduct(i).then(function(result){
                     var myDate = new Date( (result[5].toNumber()) *1000);
                     var a=(myDate.toLocaleString());
-                    // document.getElementById('id1').value = parseInt(result[0])+1;
-                    // console.log(parseInt([0])+1);
+                   
+                  
                     $("#product_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+a.split(',')[0]+'</td></tr>');
                 }).catch(function(e) {
                   
@@ -214,7 +216,7 @@ window.App = {
               console.log(parseInt(val)+1);
           }).catch(function(e){
 
-          });
+          })
         },
            
         Vieworder :function(){
@@ -298,9 +300,10 @@ window.App = {
             })
             },
 
-              viewproduct :function(){
+              Custmerproduct :function(){
                 var self = this;
                 var meta;
+               // var s=document.getElementById('search').value;
                 $("#product_list2").html('')
                 inventory.deployed().then(function(instance){
                   meta = instance;
@@ -309,11 +312,76 @@ window.App = {
                     console.log(val);
                     for(let i=1;i<=val;i++){
                     meta.viewproduct(i).then(function(result){
-                    $("#product_list2").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td></tr>');
+                      if(result[1].includes(search.toUpperCase()))
+                       $("#product_list2").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td></tr>');
                     })
                   }
-                  });
+                });
                 },
+                serching: function(){
+                  search =document.getElementById("search").value;
+                   this. Custmerproduct();
+                   
+               },
+              Ordercancell : function(){
+                var self = this;
+                var meta;
+                var a = parseInt(document.getElementById("od").value);
+                var d = parseInt(document.getElementById("pd").value);
+                         
+                inventory.deployed().then(function(instance){
+                  meta = instance;
+                  return meta.ordercancel(a,d,{from:account,gas:6000000});
+                }).then(function(result) {
+                
+                  
+                  console.log(result);  
+                 }).catch(function(e) {
+                   console.log(e);
+                   
+                 
+                 });
+      
+               },   
+               Ordercancel_list :function(){
+                var self=this;
+                var meta;
+                $("#cancel_list").html('')
+                inventory.deployed().then(function(instance){
+                    meta = instance;
+                    return meta.getcancell_count();
+                }).then(function(val){
+                    for(let i=1;i<=val;i++){
+                      meta. cancel_list(i).then(function(result,err){
+                        var myDate = new Date( (result[4].toNumber()) *1000);
+                        var a=(myDate.toLocaleString());
+                      $("#cancel_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] +'</td><td>'+result[2]+'</td><td>'+result[3]+'</td><td>'+'</td><td>'+a.split(',')[0]+'</td></tr>');
+                    }).catch(function(e) {;
+                      }).catch(function(err) {
+                      });
+                    }
+                  })
+              },
+              
+               
+
+               returnether:function(){
+                var self = this;
+                var meta;
+               var a = document.getElementById("customer").value;
+                var d = parseInt(document.getElementById("ETHER").value);
+                         
+                inventory.deployed().then(function(instance){
+                  meta = instance;
+                  return meta.returnether(a,{from:account,value:web3.toWei(d,"ether"),gas:6000000});
+                  }).then(function(result) {
+                  console.log(result);  
+                 }).catch(function(e) {
+                   console.log(e);
+                  
+                 });
+      
+               },   
 
             refresh:function(){
               var self = this;

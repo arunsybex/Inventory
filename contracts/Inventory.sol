@@ -13,6 +13,7 @@ contract Inventory is owned,BasicToken{
    uint256 public productCount=0;
    uint256[] public p_id;
    uint256[] public o_id;
+   uint256[] public c_id;
    
     struct product{
         uint pid;
@@ -44,12 +45,19 @@ contract Inventory is owned,BasicToken{
             uint iquantity;
             uint iprice;
            }
-      
+     struct cancellorder{
+         uint oid;
+         uint pid;
+         address c_address;
+         uint price;
+         uint time;
+     }
                           
     mapping(address=>address)public CUST;
     mapping(uint=>product)public PROD;
     mapping(uint=>productorder)public ORDER;
     mapping(uint=>in_order)public UPDATE;
+    mapping(uint=>cancellorder)public CANCELL;
     
     function view1(uint id)public constant returns(uint){
          return (PROD[id].pprice);
@@ -61,7 +69,6 @@ contract Inventory is owned,BasicToken{
         return CUST[msg.sender];
     }
     
-         
     function p_details(uint id,string name,string brand,uint quantity,uint price)public  payable onlyOwner   {
         require(PROD[id].pid!=id);
         PROD[id].pid = id;
@@ -73,8 +80,6 @@ contract Inventory is owned,BasicToken{
         productCount++;
         p_id.push(id);
         
-        
-
     }  
    
    function getProductsCount() public view returns(uint256){
@@ -99,9 +104,7 @@ contract Inventory is owned,BasicToken{
            ORDER[id2].price = pquantity *  PROD[id].pprice; 
            ORDER[id2].time = now;
            PROD[id].pquantity-=pquantity;
-           
            owner.transfer(msg.value);
-
            o_id.push(id2);
            
     }
@@ -138,13 +141,34 @@ contract Inventory is owned,BasicToken{
             return (PROD[id].pid,PROD[id].pquantity);
        }
        
+       function ordercancel(uint oid,uint id)public  {
+         uint t =((now -  ORDER[oid].time )* 1 minutes);
+         require(t <= 60 minutes);
        
-      
-        
+         PROD[id].pquantity += ORDER[oid].quantity ;
+          
+           CANCELL[oid].oid = oid;
+           CANCELL[oid].pid = id ;
+           CANCELL[oid]. c_address =  ORDER[oid].cid ;
+           CANCELL[oid].price =  ORDER[oid].price;
+           CANCELL[oid].time = now;
+            c_id.push(oid);
+         }
          
+         function getcancell_count()public constant returns(uint256){
+             return c_id.length;
+             
+         }
          
+         function cancel_list(uint oid)public constant returns(uint,uint,address,uint,uint){
+             return (CANCELL[oid].oid , CANCELL[oid].pid , CANCELL[oid]. c_address, CANCELL[oid].price , CANCELL[oid].time);
+            
+         }
     
-}
+        function returnether(address x)public payable{
+             x .transfer(msg.value);
+        }
+    }
    
      
  

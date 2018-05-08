@@ -87,7 +87,7 @@
           <li><a data-toggle="tab" href="#menu2"><font color="blue">Update Product</font></a></li>
           <li><a data-toggle="tab" href="#menu4"><font color="blue">View Customer order</font></a></li>
           <li><a data-toggle="tab" href="#menu5"><font color="blue">Stock Products</font></a></li>
-         <!-- <li><a data-toggle="tab" href="#menu8"><font color="blue">Out Of Stocks</font></a></li>-->
+            <li><a data-toggle="tab" href="#menu6"><font color="blue">Cancel Orders</font></a></li>
 
         </ul></b>
       
@@ -136,6 +136,7 @@
                 <br><br><button type="button" class="btn" onclick="App.purchase()"><b style="color:black;">UPDATE</b></button> <br> 
             </div>
                 <article>
+                    <h1><b>Out of stack</b></h1>
                 <table class="table table-striped" >
                             <thead> 
                                 <tr><th>Product Id</th>
@@ -163,6 +164,7 @@
                   </thead>
                   <tbody id="order_list"></tbody>
               </table>
+              
               <!--<br><br><button type="button" class="btn btn-info" onclick="App.Vieworder()"><b style="color:black;">View</b></button>-->
             </div>
                         
@@ -181,10 +183,30 @@
                       <tbody id="product_list"></tbody>
                   </table>
                  <!-- <br><br><button type="button" class="btn btn-info" onclick="App.ViewProduct()"><b style="color:black;">View</b></button>-->
-                  
-                                  
+                               
             </div>
-            
+            <div id="menu6" class="tab-pane fade">
+               
+                <table class="table table-striped" >
+                    <thead> 
+                        <tr><th>Order Id</th>
+                            <th>Product Id</th>
+                            <th>Customer Id</th>
+                            <th>Price</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cancel_list"></tbody>
+                </table>
+                <h1><b>Return amount to order cancel customer</b></h1>
+                <label for="price"  class="a">Customer Address:</label><br>
+                <input type="text" id="customer"  class="aa"><br>
+                 <label for="price"  class="a">Return Ether:</label><br>
+                <input type="text" id="ETHER"  class="aa"  minlength="1" maxlength="2"  onkeypress="return isNumberKey(event)" ><br>
+                      
+                <br><br><button type="button" class="btn" onclick="App.returnether()"><b style="color:black;">CREDIT</b></button> <br> 
+                     
+            </div>
             
       </div>
       
@@ -206,9 +228,7 @@
 	&& (charCode < 48 || charCode > 57))
         return false;
         return true;
-	}
-
-
-   </script>   
+    }
+    </script>   
 </body>
 </html>

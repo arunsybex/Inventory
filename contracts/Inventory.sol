@@ -146,7 +146,7 @@ contract Inventory is owned,BasicToken{
          require(t <= 60 minutes);
        
          PROD[id].pquantity += ORDER[oid].quantity ;
-          
+           ORDER[oid].quantity -=  ORDER[oid].quantity;
            CANCELL[oid].oid = oid;
            CANCELL[oid].pid = id ;
            CANCELL[oid]. c_address =  ORDER[oid].cid ;

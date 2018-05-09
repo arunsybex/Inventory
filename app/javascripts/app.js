@@ -231,6 +231,7 @@ window.App = {
                   meta.vieworder(i).then(function(result){
                   var myDate = new Date( (result[6].toNumber()) *1000);
                   var a=(myDate.toLocaleString());
+                      
                     $("#order_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+a.split(',')[0]+'</td></tr>');
                  })
                 }
@@ -291,9 +292,10 @@ window.App = {
                 var a=(myDate.toLocaleString());
                document.getElementById('orid').value = parseInt(result[0])+1;
                console.log(parseInt(result[0])+1);
-                if(result[1]==account)
+                if((result[1]==account)&&(result[4]!=0))
                   $("#order_list1").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+a.split(',')[0]+'</td></tr>');
-               }).catch(function(e) {
+                              
+                }).catch(function(e) {
                
               });
               }
@@ -335,7 +337,8 @@ window.App = {
                 }).then(function(result) {
                 
                   
-                  console.log(result);  
+                  console.log(result); 
+                  
                  }).catch(function(e) {
                    console.log(e);
                    

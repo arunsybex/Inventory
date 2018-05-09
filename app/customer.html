@@ -207,52 +207,6 @@ function isNumberKey(evt){
      return true;
  }
  
-
-$(function () {
-        $("#dialog").dialog({
-            modal: true,
-            autoOpen: false,                   
-            width: 200,
-            height: 100
-        });
-        
-        $("#cancel").click(function () {
-            $('#dialog').dialog('open');
-        });
-    });
-    $(function () {
-        $("#dialog1").dialog({
-            modal: true,
-            autoOpen: false,                   
-            width: 200,
-            height: 100
-        });
-        
-        $("#customer").click(function () {
-            $('#dialog1').dialog('open');
-        });
-    });
-    $(function () {
-        $("#dialog2").dialog({
-            modal: true,
-            autoOpen: false,                   
-            width: 200,
-            height: 100
-        });
-        
-        $("#order").click(function () {
-            $('#dialog2').dialog('open');
-        });
-    });
-   
-    
-
-var seq=0;
-document.getElementById("orid").value = seq;
-function myFunction() {
-seq=seq+1;
-document.getElementById("orid").value = seq;  
-}
 </script>   
 </body>
 </html>

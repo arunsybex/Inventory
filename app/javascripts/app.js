@@ -1,7 +1,6 @@
 import { default as Web3} from 'web3'
 import { default as contract } from 'truffle-contract'
 import Inventory from '../../build/contracts/Inventory.json'
-
 var inventory = contract(Inventory);
 
 var accounts;
@@ -37,8 +36,8 @@ window.App = {
       self.outofstock();
       self.View();
       self.productid();
-      self. Ordercancel_list();
-   
+      self.Ordercancel_list();
+      self. orderview();
     });
   },
 
@@ -90,6 +89,7 @@ window.App = {
      },
       
    sendether:function(){
+    
     var self = this;
     var ether= document.getElementById("ether").value;
     var meta;
@@ -111,7 +111,8 @@ window.App = {
           meta = instance;
           return meta.cust({from:account,gas:6000000});
         }).then(function(result) {
-                             
+         alert("registered")
+             
          }).catch(function(e) {
            console.log(e);
            });
@@ -231,9 +232,15 @@ window.App = {
                   meta.vieworder(i).then(function(result){
                   var myDate = new Date( (result[6].toNumber()) *1000);
                   var a=(myDate.toLocaleString());
-                      
-                    $("#order_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+a.split(',')[0]+'</td></tr>');
-                 })
+                 
+                      if(result[4]==0)
+                        {var or = result[4];
+                        or ="order canceled";}
+                        else
+                        or ="order success";
+                    $("#order_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+a.split(',')[0]+'</td><td>'+or+'</td></tr>');
+                                                       
+                  })
                 }
               }).catch(function(e) {
                  console.log(e);
@@ -293,7 +300,7 @@ window.App = {
                document.getElementById('orid').value = parseInt(result[0])+1;
                console.log(parseInt(result[0])+1);
                 if((result[1]==account)&&(result[4]!=0))
-                  $("#order_list1").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+a.split(',')[0]+'</td></tr>');
+                  $("#order_list1").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+a.split(',')[1]+'</td></tr>');
                               
                 }).catch(function(e) {
                
@@ -301,6 +308,7 @@ window.App = {
               }
             })
             },
+           
 
               Custmerproduct :function(){
                 var self = this;
@@ -335,14 +343,10 @@ window.App = {
                   meta = instance;
                   return meta.ordercancel(a,d,{from:account,gas:6000000});
                 }).then(function(result) {
-                
-                  
-                  console.log(result); 
-                  
-                 }).catch(function(e) {
+                  alert("canceled");
+                  }).catch(function(e) {
                    console.log(e);
-                   
-                 
+                               
                  });
       
                },   
@@ -352,19 +356,43 @@ window.App = {
                 $("#cancel_list").html('')
                 inventory.deployed().then(function(instance){
                     meta = instance;
-                    return meta.getcancell_count();
+                    return meta.getcancell_list();
                 }).then(function(val){
-                    for(let i=1;i<=val;i++){
-                      meta. cancel_list(i).then(function(result,err){
+                   for(let i=0;i<=val.length;i++){
+                      meta. cancel_list(val[i]).then(function(result,err){
                         var myDate = new Date( (result[4].toNumber()) *1000);
                         var a=(myDate.toLocaleString());
-                      $("#cancel_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] +'</td><td>'+result[2]+'</td><td>'+result[3]+'</td><td>'+'</td><td>'+a.split(',')[0]+'</td></tr>');
-                    }).catch(function(e) {;
+                   $("#cancel_list").append('<tr><td>' +result[0]+'</tdconsole.log(val[0][1]);><td>'+ result[1] +'</td><td>'+result[2]+'</td><td>'+result[3]+'</td><td>'+'</td><td>'+a.split(',')[0]+'</td></tr>');
+                    }).catch(function(e) {
                       }).catch(function(err) {
                       });
                     }
                   })
               },
+
+          orderview :function(){
+            var self = this;
+            var meta;
+            $("#order_list2").html('')
+            inventory.deployed().then(function(instance){
+              meta = instance;
+              return meta.getOrderCount();
+            }).then(function(val) {
+              for(let i=0;i<=val;i++){
+                meta.vieworder(i).then(function(result){
+                 var myDate = new Date( (result[6].toNumber()) *1000);
+                var a=(myDate.toLocaleString());
+               document.getElementById('orid').value = parseInt(result[0])+1;
+               console.log(parseInt(result[0])+1);
+                if((result[1]==account)&&(result[4]!=0))
+                  $("#order_list2").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+result[5]+'</td><td>'+a.split(',')[1]+'</td></tr>');
+                              
+                }).catch(function(e) {
+               
+              });
+              }
+            })
+            },
               
                
 

@@ -75,7 +75,7 @@
                 </style>
     <div class="container">
         
-         <center><h2><b>INVENTORY MANAGEMENT</h2></center><BR><BR>
+         <center><h2 style="color: black"><b>INVENTORY MANAGEMENT</h2></center><BR><BR>
         
         <a href="..\app\index.html"><button class="btn" style="float:right;"><b style="color:black;"><b class="fa fa-home">HOME</b></b></button></a>
          <p></p>
@@ -102,7 +102,7 @@
            <div id="menu1" class="tab-pane fade">
            
                 <label for="id" class="a"> PRODUCT ID</label><br>
-                <input type="text" id="id1" class="aa" minlength="1" maxlength="4"     required/><br>
+                <input type="text" id="id1" class="aa" minlength="1" maxlength="4"   readonly required/><br>
               
                 <label for="name"  class="a"> NAME</label><br>
                 <input type="text" id="name1" class="aa" placeholder=" LAP" onKeyPress="return ValidateAlpha(event);" ><br>
@@ -154,12 +154,13 @@
               <table class="table table-striped" >
                   <thead> 
                       <tr><th>Order Id</th>
-                          <th>Customer Id</th>
-                          <th>Product Name</th>
-                          <th>Product Brand</th>
-                          <th>Quantity</th>
-                          <th>Price</th>
-                          <th>Date</th>
+                        <th>Customer Id</th>
+                        <th>Product Id</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Date</th>
+                        <th>Status</th>
                       </tr>
                   </thead>
                   <tbody id="order_list"></tbody>
@@ -178,11 +179,12 @@
                               <th>Product Quantity</th>
                               <th>Product Price</th>
                               <th>Date</th>
+                              
                             </tr>
                       </thead>
                       <tbody id="product_list"></tbody>
                   </table>
-                 <!-- <br><br><button type="button" class="btn btn-info" onclick="App.ViewProduct()"><b style="color:black;">View</b></button>-->
+                 
                                
             </div>
             <div id="menu6" class="tab-pane fade">
@@ -198,6 +200,7 @@
                     </thead>
                     <tbody id="cancel_list"></tbody>
                 </table>
+              <!-- <br><br><button type="button" class="btn btn-info" onclick="App.Ordercancel_list()"><b style="color:black;">View</b></button>-->
                 <h1><b>Return amount to order cancel customer</b></h1>
                 <label for="price"  class="a">Customer Address:</label><br>
                 <input type="text" id="customer"  class="aa"><br>

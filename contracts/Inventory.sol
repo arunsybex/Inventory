@@ -29,7 +29,7 @@ contract Inventory is owned,BasicToken{
        
         struct productorder{
              uint id2;
-             uint id;
+             uint id1;
              address cid;
              string name;
              string brand;
@@ -97,7 +97,7 @@ contract Inventory is owned,BasicToken{
            require(msg.sender==CUST[msg.sender] );
            ORDER[id2].id2 = id2;
            ORDER[id2].cid = msg.sender;
-           ORDER[id2].id=id;
+           ORDER[id2].id1=id;
            ORDER[id2].name =PROD[id].pname ;
            ORDER[id2].brand =  PROD[id].pbrand;
            ORDER[id2].quantity=pquantity;
@@ -131,9 +131,11 @@ contract Inventory is owned,BasicToken{
            return(PROD[id].pid,PROD[id].pname,PROD[id].pbrand,  PROD[id].pquantity,PROD[id].pprice,PROD[id].time);
        } 
        
-       function vieworder(uint id2)public constant returns(uint,address,string,string,uint,uint,uint){
+       
+       function vieworder(uint id2)public constant returns(uint,address,uint,string,uint,uint,uint){
+                  
+           return (ORDER[id2].id2,ORDER[id2].cid, ORDER[id2].id1, ORDER[id2].name , ORDER[id2].quantity,ORDER[id2].price, ORDER[id2].time);
            
-           return (ORDER[id2].id2,ORDER[id2].cid, ORDER[id2].name, ORDER[id2].brand,ORDER[id2].quantity,ORDER[id2].price, ORDER[id2].time);
        }
        
        function outOfStock(uint id)public constant returns(uint,uint){
@@ -142,32 +144,34 @@ contract Inventory is owned,BasicToken{
        }
        
        function ordercancel(uint oid,uint id)public  {
-         uint t =((now -  ORDER[oid].time )* 1 minutes);
-         require(t <= 60 minutes);
+         require(msg.sender== ORDER[oid].cid && msg.sender==CUST[msg.sender] );
+         uint t =(now -  ORDER[oid].time );
+           require(t<= 3600 seconds);
        
          PROD[id].pquantity += ORDER[oid].quantity ;
-           ORDER[oid].quantity -=  ORDER[oid].quantity;
+         ORDER[oid].quantity -= ORDER[oid].quantity; 
            CANCELL[oid].oid = oid;
            CANCELL[oid].pid = id ;
            CANCELL[oid]. c_address =  ORDER[oid].cid ;
            CANCELL[oid].price =  ORDER[oid].price;
            CANCELL[oid].time = now;
             c_id.push(oid);
+            
          }
          
-         function getcancell_count()public constant returns(uint256){
-             return c_id.length;
-             
+         function getcancell_list()public view returns(uint256[]){
+             return c_id;
          }
+        
          
          function cancel_list(uint oid)public constant returns(uint,uint,address,uint,uint){
              return (CANCELL[oid].oid , CANCELL[oid].pid , CANCELL[oid]. c_address, CANCELL[oid].price , CANCELL[oid].time);
-            
          }
     
         function returnether(address x)public payable{
              x .transfer(msg.value);
         }
+        
     }
    
      

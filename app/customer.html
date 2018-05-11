@@ -65,21 +65,19 @@
                 }
                 article {
                     margin-left: 400px;
-                    
                 padding: 1em;
               overflow: hidden;
-             }
+             }             
              .design{
                 float: left;
-    max-width: 300px;
-    margin: 0;
-    padding: 1em;
+             max-width: 300px;
+             margin: 0;
+         padding: 1em;
              }
              .order {
                     margin-left: 400px;
-                    
-                padding: 1em;
-              overflow: hidden;
+                    padding: 1em;
+                 overflow: hidden;
              }
              .inner-addon { 
     position: relative; 
@@ -102,43 +100,40 @@
                 </style>
    
  <div class="container">
-    <center><h2><b>INVENTORY MANAGEMENT</h2></center><BR><BR>
+    <center><h2><b style="color:black">INVENTORY MANAGEMENT</h2></center><BR><BR>
  <a href="..\app\index.html"> <button class="btn btn-success" style="float:right;"><b style="color:black;"><b class="fa fa-home">HOME</b></b></button></a>
    <p></p>
    <b style="color:black;">
   <ul class="nav nav-tabs">
     <li><a data-toggle="tab" href="#menu5"><font color="blue">Customer Register</font></a></li>
     <li><a data-toggle="tab" href="#menu8"><font color="blue">Customer Purchase</font></a></li>
+   <li><a data-toggle="tab" href="#menu7"><font color="blue">Order Cancel</font></a></li>
   </ul></b>
 
   <div class="tab-content">
-                            
+          
        <div id="menu5" class="tab-pane fade">
         <p style="font-size:20px;margin-top:20px">Click register button</p>
         <button type="button" id="customer" class="btn btn-info"  onclick="App.customer()"><b style="color:black;">REGISTER</b></button><br><br>
-        <div id="dialog1" style="display: none" align = "center">
-                you are Registered
-            </div>
+        
        </div>
       
         
         <div id="menu8" class="tab-pane fade">
           <div class="design">
                
-            <label for="ord id" class="y">ORDER ID</label><br>
-            <input type="text" id="orid"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br>
+            <label for="ord id" class="y" >ORDER ID</label><br>
+            <input type="text" id="orid"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" readonly><br>
         
             <label for="pro id" class="y">PRODUCT ID</label><br>
             <input type="text" id="id2"   class="aa" minlength="1" maxlength="4" onkeyup="return isNumberKey(event);"placeholder="e.g.,1" ><br>
             <label for="quantity" class="y">Quantity:</label><br>
             <input type="text" id="qnty"  class="aa" minlength="1" maxlength="4" onkeyup="return isNumberKey(event),App.proamount()" placeholder="e.g.,6" ><br>
             <label for="ether" class="y">Amount:</label><br>
-            <input type="text" id="ether"  class="aa" minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br>
+            <input type="text" id="ether"  class="aa" minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" readonly ><br>
             <br><br><button type="button"  class="btn"   id="order" onclick="App.Cutomerorder()"><b style="color:black;">ORDER</b></button> 
             <button class="btn btn-info" onclick="App.refresh()"><b style="color:black;">REFRESH</b></button>
-            <div id="dialog2" style="display: none" align = "center">
-                    order success
-                </div>
+           
         </div> 
         <article>
                 <div class="inner-addon right-addon">
@@ -165,8 +160,8 @@
                             <thead> 
                                 <tr><th>Order Id</th>
                                     <th>Customer Id</th>
+                                    <th>Product Id</th>
                                     <th>Product Name</th>
-                                    <th>Product Brand</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
                                     <th>Date</th>
@@ -175,27 +170,42 @@
                             <tbody id="order_list1"></tbody>
                         </table>
                         <!--<br><br><button type="button"  class="btn" id="addbtn"  onclick="App.View()"><b style="color:black;">View</b></button> -->
-                       
-                      
+                                        
+            </article>
+               
+            </div> 
+            <div id="menu7" class="tab-pane fade">
+                    <div class="design">
+                    <h1><b>Order Cancel</b></h1>
+                    <p style="color:blue">by within one hour</p>
+                    <label for="ord id" class="y">ORDER ID</label><br>
+                     <input type="text" id="od"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br>
+                     <label for="pro id" class="y">PRODUCT ID</label><br>
+                     <input type="text" id="pd"   class="aa" minlength="1" maxlength="4" onkeyup="return isNumberKey(event);"placeholder="e.g.,1" ><br>
+                     <br><br><button type="button"  class="btn"   id="cancel" onclick="App.Ordercancell()"><b style="color:black;"> CANCEL ORDER</b></button> 
+                     </div>
+                     <article>
+                            <table class="table table-striped" >
+                                    <thead> 
+                                        <tr><th>Order Id</th>
+                                            <th>Customer Id</th>
+                                            <th>Product Id</th>
+                                            <th>Product Name</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="order_list"></tbody>
+                                </table>
+                            </article>
+                                <!--<br><br><button type="button"  class="btn" id="addbtn"  onclick="App.View()"><b style="color:black;">View</b></button> -->
+                                                
                     
-                  </article>
-               <article>
-                   <h1><b>Order Cancel</b></h1>
-                   <label for="ord id" class="y">ORDER ID</label><br>
-                    <input type="text" id="od"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br>
-        
-                    <label for="pro id" class="y">PRODUCT ID</label><br>
-                    <input type="text" id="pd"   class="aa" minlength="1" maxlength="4" onkeyup="return isNumberKey(event);"placeholder="e.g.,1" ><br>
-                    <br><br><button type="button"  class="btn"   id="cancel" onclick="App.Ordercancell()"><b style="color:black;"> CANCEL ORDER</b></button> 
-                    
-                    <div id="dialog" style="display: none" align = "center">
-                            your order canceled
-                    </div>
-
-                </article> 
-            </div>  
+                    </div>                  
         </div>
     </div>
+    
 </div>
 
 <script>

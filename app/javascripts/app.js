@@ -246,6 +246,19 @@ window.App = {
                  console.log(e);
                  });
               },
+              checkAdmin :function(){
+                var self=this;
+                var meta;
+                inventory.deployed().then(function(instance){
+                  meta = instance;
+                  return meta.owner();
+              }).then(function(val){
+                  if(val != account){
+                    alert("You Don't Have Rights ...!");
+                    window.location.replace("/");
+                  }
+              });
+              },
       
        outofstock :function(){
               var self=this;
@@ -255,12 +268,17 @@ window.App = {
                   meta = instance;
                   return meta.getProductsCount();
               }).then(function(val){
-                  for(let i=1;i<=val;i++){
-                    meta.outOfStock(i).then(function(result,err){
-                    if(parseInt(result[1])==0)
-                    $("#reg_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] +'</td></tr>');
-                    }).catch(function(err) {
-                    });
+                
+                   for(let i=1;i<=val.toNumber();i++){
+                     meta.outOfStock(i).then(function(result,err){
+                      console.log(result[0],result[1])
+                      console.log(result[1].toNumber() == 0);
+                      if(result[1].toNumber() == 0){
+                        $("#reg_list").append('<tr><td>' +result[0].toNumber()+'</td><td>'+ result[1].toNumber() +'</td></tr>');
+                      }
+                      }).catch(function(err) {
+                        console.log(err);
+                     });
                   }
                 })
             },

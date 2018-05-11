@@ -77,7 +77,7 @@
         
          <center><h2 style="color: black"><b>INVENTORY MANAGEMENT</h2></center><BR><BR>
         
-        <a href="..\app\index.html"><button class="btn" style="float:right;"><b style="color:black;"><b class="fa fa-home">HOME</b></b></button></a>
+        <a href="/"><button class="btn" style="float:right;"><b style="color:black;"><b class="fa fa-home">HOME</b></b></button></a>
          <p></p>
          <b style="color:black;">
         <ul class="nav nav-tabs">
@@ -136,7 +136,7 @@
                 <br><br><button type="button" class="btn" onclick="App.purchase()"><b style="color:black;">UPDATE</b></button> <br> 
             </div>
                 <article>
-                    <h1><b>Out of stack</b></h1>
+                    <h2><b>Out Of Stock Product Details</b></h2>
                 <table class="table table-striped" >
                             <thead> 
                                 <tr><th>Product Id</th>
@@ -214,6 +214,10 @@
       </div>
       
    <script>
+       window.onload = function() {
+            App.checkAdmin();
+        };
+
        function myFunction() {
             document.getElementById("menu1").reset();
         }

@@ -141,7 +141,6 @@ contract Inventory{
        }
        
        function outOfStock(uint id)public constant returns(uint,uint){
-            require(PROD[id].pquantity==0);
             return (PROD[id].pid,PROD[id].pquantity);
        }
        

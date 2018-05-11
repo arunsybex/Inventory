@@ -1,11 +1,6 @@
 pragma solidity ^0.4.0;
 
-import "./owned.sol";
-import "./BasicToken.sol";
-
-
- 
-contract Inventory is owned,BasicToken{
+contract Inventory{
      
     
      
@@ -23,11 +18,7 @@ contract Inventory is owned,BasicToken{
         uint pprice;
         uint time;
        }
-
-     
-    
-       
-        struct productorder{
+     struct productorder{
              uint id2;
              uint id1;
              address cid;
@@ -58,6 +49,17 @@ contract Inventory is owned,BasicToken{
     mapping(uint=>productorder)public ORDER;
     mapping(uint=>in_order)public UPDATE;
     mapping(uint=>cancellorder)public CANCELL;
+    
+    address public owner;
+
+    function Inventory()public {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner {
+        require (owner == msg.sender);
+        _;
+    }
     
     function view1(uint id)public constant returns(uint){
          return (PROD[id].pprice);

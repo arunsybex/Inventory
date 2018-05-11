@@ -132,8 +132,8 @@ window.App = {
             return meta.p_details(a,b.toUpperCase(),c.toUpperCase(),d,price,{from:account,gas:6000000});
            
           }).then(function(result) {
-              console.log(result); 
-           
+              alert("Product Added Successfully ...!"); 
+              location.reload();           
            }).catch(function(e) {
              console.log(e);
            });

@@ -54,7 +54,7 @@ contract Inventory{
     
     address public owner;
 
-    function Inventory()public {
+    constructor()public {
         owner = msg.sender;
     }
 

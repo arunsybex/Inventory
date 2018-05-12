@@ -17,5 +17,5 @@ module.exports = {
       //from:"0xCb5a2170113081c32C643662ED23618CC696A3C5",
       gas:"4000000"
     }
-  }
+   }
 }

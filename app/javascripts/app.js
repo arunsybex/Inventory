@@ -56,10 +56,13 @@ window.App = {
 
           inventory.deployed().then(function(instance){
             meta = instance;
+            $("#loader").html('<center><i class="fa fa-spinner fa-spin" style="font-size:200px;"></center>');
             return meta.p_details(a,b.toUpperCase(),c.toUpperCase(),d,price,{from:account,gas:600000});
-           
+           // $("#loader").html('<center><i class="fa fa-spinner fa-spin" style="font-size:200px;float:top;"></center>');
           }).then(function(result) {
+            $("#loader").hide();
               swal("Product Added Successfully ...!"); 
+             
               location.reload();           
            }).catch(function(e) {
              console.log(e);
@@ -76,14 +79,15 @@ window.App = {
                   
           inventory.deployed().then(function(instance){
             meta = instance;
+            $("#loader").html('<center><i class="fa fa-spinner fa-spin" style="font-size:200px;"></center>');
             return meta.order(a,b,d,{from:account,value:web3.toWei(e,"ether"),gas:600000});
             
           }).then(function(result) {
             swal("Order Successfully....");
-            console.log(result);
+            location.reload(); 
             
           }).catch(function(e) {
-             console.log(e);
+             swal("Order Cancelled....");
       
            });
          },  
@@ -97,9 +101,13 @@ window.App = {
                    
           inventory.deployed().then(function(instance){
             meta = instance;
+            $("#loader").html('<center><i class="fa fa-spinner fa-spin" style="font-size:200px;"></center>');
             return meta.update_product(a,d,e,{from:account,gas:600000});
+
           }).then(function(result) {
+            $("#loader").hide();
                  swal("Product Updated Successfully...");  
+                 location.reload();
            }).catch(function(e) {
              console.log(e);
             
@@ -114,21 +122,20 @@ window.App = {
               meta = instance;
                 return meta.getProductsCount();
               }).then(function(val) {
+
                 console.log(val);
                 for(let i=1;i<=val;i++){
                  meta.viewproduct(i).then(function(result){
                     var myDate = new Date( (result[5].toNumber()) *1000);
                     var a=(myDate.toLocaleString());
-                   
-                  
-                    $("#product_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+a.split(',')[0]+'</td></tr>');
+                      $("#product_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+a.split(',')[0]+'</td></tr>');
                 }).catch(function(e) {
-                  
+                     
                 });
               }
                     
              });
-                  
+              //location.reload(); 
                   
         },
         productid: function(){
@@ -158,15 +165,15 @@ window.App = {
                 for(let i=1;i<=val;i++){
                   meta.vieworder(i).then(function(result){
                   var myDate = new Date( (result[5].toNumber()) *1000);
-                  var a=(myDate.toLocaleString());
-                 
+                  var a=(myDate.toLocaleString()); 
                       if(result[6]==0)
                         {var or = result[6];
                         or ="order canceled";}
                         else
                         or ="order success";
-                    $("#order_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+a.split(',')[0]+'</td><td>'+or+'</td></tr>');
-                                                       
+                    if(result[0]!=0)
+                         $("#order_list").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+a.split(',')[0]+'</td><td>'+or+'</td></tr>');
+                                           
                   })
                 }
               }).catch(function(e) {
@@ -190,7 +197,7 @@ window.App = {
                     <li><a data-toggle="tab" href="#menu5"><font color="blue">Stock Products</font></a></li>\
                     <li><a data-toggle="tab" href="#menu6"><font color="blue">Cancel Orders</font></a></li></ul>');
 
-                    $(".tab-content").html('<div id="menu1" class="tab-pane fade container"> <br><input hidden type="text" id="id1" class="aa" minlength="1" maxlength="4"   readonly required/><br><label for="name"  class="a"> NAME</label><br><input type="text" id="name1" class="aa" placeholder=" LAP" onKeyPress="return ValidateAlpha(event);" ><br><label for="brand"  class="a">BRAND</label><br><input type="text" id="brand1" class="aa" placeholder=" DELL" onKeyPress="return ValidateAlpha(event);" ><br><label for="quantity"  class="a">Quantity:</label><br><input type="text" id="quantity1"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br><label for="price"  class="a">Amount:</label><br><input type="text" id="price1"  class="aa"  minlength="1" maxlength="2"  onkeypress="return isNumberKey(event)" ><br><br><button type="button" class="btn" onclick="App.product()"><b style="color:black;">ADD</b></button><button type="button" class="btn" onclick="App.clear()"><b style="color:black;">CLEAR</b></button></div>\
+                    $(".tab-content").html('<div id="menu1" class="tab-pane fade container"> <br><input hidden type="text" id="id1" class="aa" minlength="1" maxlength="4"   readonly required/><br><label for="name"  class="a"> NAME</label><br><input type="text" id="name1" class="aa" placeholder=" LAP" onKeyPress="return ValidateAlpha(event);" ><br><label for="brand"  class="a">BRAND</label><br><input type="text" id="brand1" class="aa" placeholder=" DELL" onKeyPress="return ValidateAlpha(event);" ><br><label for="quantity"  class="a">Quantity:</label><br><input type="text" id="quantity1"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br><label for="price"  class="a">Amount:</label><br><input type="text" id="price1"  class="aa"  minlength="1" maxlength="4" ><br><br><button type="button" class="btn" onclick="App.product()"><b style="color:black;">ADD</b></button><button type="button" class="btn" onclick="App.clear()"><b style="color:black;">CLEAR</b></button></div>\
                     <div id="menu2" class="tab-pane fade col-sm-12"><br><div class="sample col-sm-4"><label for="id"  class="a">Product Id:</label><br><td><input type="text" id="id"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br><label for="quantity"  class="a">Quantity:</label><br><input type="text" id="quantity"  class="aa" minlength="1" maxlength="4"  onkeypress="return isNumberKey(event)" ><br><label for="price"  class="a">Price:</label><br><input type="text" id="Price"  class="aa"  minlength="1" maxlength="2"  onkeypress="return isNumberKey(event)" ><br><br><button type="button" class="btn" onclick="App.purchase()"><b style="color:black;">UPDATE</b></button> <br></div><div class="container col-sm-8"><h2><b>Out Of Stock Product Details</b></h2><br><table class="table table-striped" ><thead> <tr><th>Product Id</th><th>Product Quantity</th><th>Product Price</th></tr></thead><tbody id="reg_list"></tbody></table></article></div></div>\
                     <div id="menu4" class="tab-pane fade container "><br><table class="table table-striped" ><thead> <tr><th>Order Id</th><th>Customer Id</th><th>Product Id</th><th>Quantity</th><th>Price</th><th>Date</th><th>Status</th></tr></thead><tbody id="order_list"></tbody></table></div>\
                     <div id="menu5" class="tab-pane fade container "><br><table class="table table-striped" ><thead> <tr><th>Product Id</th><th>Product Name</th><th>Product Brand</th><th>Product Quantity</th><th>Product Price</th><th>Date</th></tr></thead><tbody id="product_list"></tbody></table></div>\
@@ -244,10 +251,14 @@ window.App = {
                 var azz=parseInt(val);
                 console.log(parseInt(val));
 
-            var az = document.getElementById("qnty").value;
-            console.log(az*azz);
-
-            document.getElementById("ether").value=az*azz;
+                var az = document.getElementById("qnty").value;
+                console.log(az*azz);
+                
+                document.getElementById("ether").value=az*azz;
+                var ab= document.getElementById("ether").value;
+                if(ab==0){
+                    swal("Please check your Product id and quantity...");
+                }
           })
           },
 
@@ -304,9 +315,12 @@ window.App = {
                 var meta;
                 inventory.deployed().then(function(instance){
                   meta = instance;
+                  $("#loader").html('<center><i class="fa fa-spinner fa-spin" style="font-size:200px;"></center>');
                   return meta.ordercancel(o_id,p_id,{from:account,gas:600000});
                 }).then(function(result) {
+                  $("#loader").hide();
                      swal("Your Ordered Cancelled");
+                     location.reload(); 
                   }).catch(function(e) {
                    console.log(e);
                                
@@ -353,7 +367,7 @@ window.App = {
                orid=result[0];
                productid=result[2];
                 if((result[1]==account)&&(result[6]==1))
-                  $("#order_list2").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+a.split(',')[1]+'</td><td><button type="button" class="btn" id="cancel" onclick="App.Ordercancell('+result[0]+','+result[2]+')"><b style="color:black;"> CANCEL ORDER</b></button></td></tr>');
+                  $("#order_list2").append('<tr><td>' +result[0]+'</td><td>'+ result[1] + '</td><td>' + result[2] +'</td><td>'+ result[3]+'</td><td>'+result[4]+'</td><td>'+a.split(',')[1]+'</td><td><button type="button" class="btn" id="cancel" onclick="App.Ordercancell('+result[0]+','+result[2]+')"><b style="color:black;"> CANCEL</b></button></td></tr>');
                               
                 }).catch(function(e) {
                
@@ -373,9 +387,12 @@ window.App = {
                          
                 inventory.deployed().then(function(instance){
                   meta = instance;
+                  $("#loader").html('<center><i class="fa fa-spinner fa-spin" style="font-size:200px;"></center>');
                   return meta.returnether(a,cancel_id,{from:account,value:web3.toWei(d,"ether"),gas:600000});
                   }).then(function(result) {
+                    $("#loader").hide();
                        swal("Credited Successfully");
+                       location.reload(); 
                  }).catch(function(e) {
                    console.log(e);
                   

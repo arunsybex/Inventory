@@ -44,7 +44,7 @@ contract Inventory{
          uint time;
      }
                           
-    mapping(address=>address)public CUST;
+    
     mapping(uint=>product)public PROD;
     mapping(uint=>productorder)public ORDER;
     mapping(uint=>in_order)public UPDATE;
@@ -52,7 +52,7 @@ contract Inventory{
     
     address public owner;
 
-    function Inventory()public {
+    constructor()public {
         owner = msg.sender;
     }
 
@@ -64,12 +64,6 @@ contract Inventory{
     function view1(uint id)public constant returns(uint){
          return (PROD[id].pprice);
      }
-    
-    
-    function cust()public returns(address) {
-        CUST[msg.sender] = msg.sender;
-        return CUST[msg.sender];
-    }
     
     function p_details(uint id,string name,string brand,uint quantity,uint price)public  payable onlyOwner   {
         require(PROD[id].pid!=id);
@@ -96,7 +90,6 @@ contract Inventory{
     function order(uint id2,uint id,uint pquantity)public payable {
         
            require(id ==PROD[id].pid && pquantity <= PROD[id].pquantity);
-           require(msg.sender==CUST[msg.sender] );
            ORDER[id2].id2 = id2;
            ORDER[id2].cid = msg.sender;
            ORDER[id2].id1=id;
@@ -145,7 +138,7 @@ contract Inventory{
        }
        
        function ordercancel(uint oid,uint id)public  {
-         require(msg.sender== ORDER[oid].cid && msg.sender==CUST[msg.sender] );
+         require(msg.sender== ORDER[oid].cid);
          uint t =(now -  ORDER[oid].time );
            require(t<= 3600 seconds);
        
@@ -169,8 +162,9 @@ contract Inventory{
              return (CANCELL[oid].oid , CANCELL[oid].pid , CANCELL[oid]. c_address, CANCELL[oid].price , CANCELL[oid].time);
          }
     
-        function returnether(address x)public payable{
-             x .transfer(msg.value);
+        function returnether(address x,uint256 _cid)public payable{
+            delete c_id[_cid];
+            x .transfer(msg.value);             
         }
         
     }

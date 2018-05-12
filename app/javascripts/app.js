@@ -1,6 +1,7 @@
 import { default as Web3} from 'web3'
 import { default as contract } from 'truffle-contract'
 import Inventory from '../../build/contracts/Inventory.json'
+
 var inventory = contract(Inventory);
 
 var accounts;
@@ -79,7 +80,7 @@ window.App = {
              
        inventory.deployed().then(function(instance){
         meta = instance;
-        return meta.transfer(toaddress,value,{from:account,gas:6000000});
+        return meta.transfer(toaddress,value,{from:account,gas:600000});
       }).then(function(result) {
          var res=document.getElementById("ts").value = result;
          }).catch(function(e) {
@@ -95,7 +96,7 @@ window.App = {
     var meta;
     inventory.deployed().then(function(instance){
      meta = instance;
-     return meta.sendEther({from:account,value:web3.toWei(ether,"ether"),gas:6000000});
+     return meta.sendEther({from:account,value:web3.toWei(ether,"ether"),gas:600000});
    }).then(function(result) {       
      document.getElementById("ba").value=result;
          }).catch(function(e) {
@@ -109,7 +110,7 @@ window.App = {
         
         inventory.deployed().then(function(instance){
           meta = instance;
-          return meta.cust({from:account,gas:6000000});
+          return meta.cust({from:account,gas:600000});
         }).then(function(result) {
          alert("registered")
              
@@ -129,7 +130,7 @@ window.App = {
 
           inventory.deployed().then(function(instance){
             meta = instance;
-            return meta.p_details(a,b.toUpperCase(),c.toUpperCase(),d,price,{from:account,gas:6000000});
+            return meta.p_details(a,b.toUpperCase(),c.toUpperCase(),d,price,{from:account,gas:600000});
            
           }).then(function(result) {
               alert("Product Added Successfully ...!"); 
@@ -149,7 +150,7 @@ window.App = {
                   
           inventory.deployed().then(function(instance){
             meta = instance;
-            return meta.order(a,b,d,{from:account,value:web3.toWei(e,"ether"),gas:6000000});
+            return meta.order(a,b,d,{from:account,value:web3.toWei(e,"ether"),gas:600000});
             
           }).then(function(result) {
             alert("ordered");
@@ -170,7 +171,7 @@ window.App = {
                    
           inventory.deployed().then(function(instance){
             meta = instance;
-            return meta.update_product(a,d,e,{from:account,gas:6000000});
+            return meta.update_product(a,d,e,{from:account,gas:600000});
           }).then(function(result) {
             console.log(result);  
            }).catch(function(e) {
@@ -249,14 +250,35 @@ window.App = {
               checkAdmin :function(){
                 var self=this;
                 var meta;
+                $("#nav-works").html('');
+                $(".tab-content").html('');
                 inventory.deployed().then(function(instance){
                   meta = instance;
                   return meta.owner();
               }).then(function(val){
-                  if(val != account){
-                    alert("You Don't Have Rights ...!");
-                    window.location.replace("/");
+                  if(val == account){
+                    $("#nav-works").html('<ul class="nav nav-tabs">\
+                    <li><a data-toggle="tab" href="#menu1"><font color="BLUE">Product </font></a></li>\
+                    <li><a data-toggle="tab" href="#menu2"><font color="blue">Update Product</font></a></li>\
+                    <li><a data-toggle="tab" href="#menu4"><font color="blue">View Customer order</font></a></li>\
+                    <li><a data-toggle="tab" href="#menu5"><font color="blue">Stock Products</font></a></li>\
+                    <li><a data-toggle="tab" href="#menu6"><font color="blue">Cancel Orders</font></a></li></ul>');
+
+                    $(".tab-content").html('<div id="menu1" class="tab-pane fade"><input type="text" id="id1" class="aa" minlength="1" maxlength="4"   readonly required/><br><label for="name"  class="a"> NAME</label><br><input type="text" id="name1" class="aa" placeholder=" LAP" onKeyPress="return ValidateAlpha(event);" ><br><label for="brand"  class="a">BRAND</label><br><input type="text" id="brand1" class="aa" placeholder=" DELL" onKeyPress="return ValidateAlpha(event);" ><br><label for="quantity"  class="a">Quantity:</label><br><input type="text" id="quantity1"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br><label for="price"  class="a">Amount:</label><br><input type="text" id="price1"  class="aa"  minlength="1" maxlength="2"  onkeypress="return isNumberKey(event)" ><br><br><br><button type="button" class="btn" onclick="App.product()"><b style="color:black;">ADD</b></button><button type="button" class="btn" onclick="App.clear()"><b style="color:black;">CLEAR</b></button></div>\
+                    <div id="menu2" class="tab-pane fade"><div class="sample"><label for="id"  class="a">Product Id:</label><br><td><input type="text" id="id"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br><label for="quantity"  class="a">Quantity:</label><br><input type="text" id="quantity"  class="aa" minlength="1" maxlength="4"  onkeypress="return isNumberKey(event)" ><br><label for="price"  class="a">Price:</label><br><input type="text" id="Price"  class="aa"  minlength="1" maxlength="2"  onkeypress="return isNumberKey(event)" ><br><br><br><button type="button" class="btn" onclick="App.purchase()"><b style="color:black;">UPDATE</b></button> <br></div><h2><b>Out Of Stock Product Details</b></h2><table class="table table-striped" ><thead> <tr><th>Product Id</th><th>Product Quantity</th></tr></thead><tbody id="reg_list"></tbody></table></article></div>\
+                    <div id="menu4" class="tab-pane fade"><table class="table table-striped" ><thead> <tr><th>Order Id</th><th>Customer Id</th><th>Product Id</th><th>Product Name</th><th>Quantity</th><th>Price</th><th>Date</th><th>Status</th></tr></thead><tbody id="order_list"></tbody></table></div>\
+                    <div id="menu5" class="tab-pane fade"><table class="table table-striped" ><thead> <tr><th>Product Id</th><th>Product Name</th><th>Product Brand</th><th>Product Quantity</th><th>Product Price</th><th>Date</th></tr></thead><tbody id="product_list"></tbody></table></div>\
+                    <div id="menu6" class="tab-pane fade"><table class="table table-striped" ><thead> <tr><th>Cancel ID</th><th>Order Id</th><th>Product Id</th><th>Customer Id</th><th>Price</th><th>Date</th></tr></thead><tbody id="cancel_list"></tbody></table><h1><b>Return amount to order cancel customer</b></h1><label for="cancel_id"  class="a">Cancel ID:</label><br><input type="text" id="cancel_id"  class="aa"><br><label for="customer"  class="a">Customer Address:</label><br><input type="text" id="customer"  class="aa"><br><label for="ETHER"  class="a">Return Ether:</label><br><input type="text" id="ETHER"  class="aa"  minlength="1" maxlength="2"  onkeypress="return isNumberKey(event)" ><br><br><br><button type="button" class="btn" onclick="App.returnether()"><b style="color:black;">CREDIT</b></button> <br> </div>');
                   }
+                  else{
+                    $("#nav-works").html('<ul class="nav nav-tabs">\
+                    <li><a data-toggle="tab" href="#menu8"><font color="blue">Customer Purchase</font></a></li>\
+                    <li><a data-toggle="tab" href="#menu7"><font color="blue">Order Cancel</font></a></li></ul>');
+
+                    $(".tab-content").html('<div id="menu8" class="tab-pane fade"><div class="design"><label for="ord id" class="y" >ORDER ID</label><br><input type="text" id="orid"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" readonly><br><label for="pro id" class="y">PRODUCT ID</label><br><input type="text" id="id2"   class="aa" minlength="1" maxlength="4" onkeyup="return isNumberKey(event);"placeholder="e.g.,1" ><br><label for="quantity" class="y">Quantity:</label><br><input type="text" id="qnty"  class="aa" minlength="1" maxlength="4" onkeyup="return isNumberKey(event),App.proamount()" placeholder="e.g.,6" ><br><label for="ether" class="y">Amount:</label><br><input type="text" id="ether"  class="aa" minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" readonly ><br><br><br><button type="button"  class="btn"   id="order" onclick="App.Cutomerorder()"><b style="color:black;">ORDER</b></button><button class="btn btn-info" onclick="App.refresh()"><b style="color:black;">REFRESH</b></button></div> <article><div class="inner-addon right-addon"><i class="glyphicon glyphicon-search"></i><input type="text" id="search"  class="form-control" onkeyup="App.serching()" placeholder="Search" /></div></article><article><table class="table table-striped" ><thead> <tr><th>Product Id</th><th>Product Name</th><th>Product Brand</th><th>Product Quantity</th><th>Product Price</th></tr></thead><tbody id="product_list2"></tbody></table></article><article class="order"><table class="table table-striped" ><thead> <tr><th>Order Id</th><th>Customer Id</th><th>Product Id</th><th>Product Name</th><th>Quantity</th><th>Price</th><th>Date</th></tr></thead><tbody id="order_list1"></tbody></table></article></div>\
+                    <div id="menu7" class="tab-pane fade"><div class="design"><h1><b>Order Cancel</b></h1><p style="color:blue">by within one hour</p><label for="ord id" class="y">ORDER ID</label><br><input type="text" id="od"  class="aa"  minlength="1" maxlength="4" onkeypress="return isNumberKey(event)" ><br><label for="pro id" class="y">PRODUCT ID</label><br><input type="text" id="pd"   class="aa" minlength="1" maxlength="4" onkeyup="return isNumberKey(event);"placeholder="e.g.,1" ><br><br><br><button type="button"  class="btn"   id="cancel" onclick="App.Ordercancell()"><b style="color:black;"> CANCEL ORDER</b></button></div><article><table class="table table-striped" ><thead> <tr><th>Order Id</th><th>Customer Id</th><th>Product Id</th><th>Product Name</th><th>Quantity</th><th>Price</th><th>Date</th></tr></thead><tbody id="order_list"></tbody></table></article></div>');
+                  }
+
               });
               },
       
@@ -359,7 +381,7 @@ window.App = {
                          
                 inventory.deployed().then(function(instance){
                   meta = instance;
-                  return meta.ordercancel(a,d,{from:account,gas:6000000});
+                  return meta.ordercancel(a,d,{from:account,gas:600000});
                 }).then(function(result) {
                   alert("canceled");
                   }).catch(function(e) {
@@ -380,7 +402,9 @@ window.App = {
                       meta. cancel_list(val[i]).then(function(result,err){
                         var myDate = new Date( (result[4].toNumber()) *1000);
                         var a=(myDate.toLocaleString());
-                   $("#cancel_list").append('<tr><td>' +result[0]+'</tdconsole.log(val[0][1]);><td>'+ result[1] +'</td><td>'+result[2]+'</td><td>'+result[3]+'</td><td>'+'</td><td>'+a.split(',')[0]+'</td></tr>');
+                        if (result[1] != 0){
+                            $("#cancel_list").append('<tr><td>'+i+'</td><td>' +result[0]+'</tdconsole.log(val[0][1]);><td>'+ result[1] +'</td><td>'+result[2]+'</td><td>'+result[3]+'</td><td>'+a.split(',')[0]+'</td></tr>');
+                        }
                     }).catch(function(e) {
                       }).catch(function(err) {
                       });
@@ -419,10 +443,11 @@ window.App = {
                 var meta;
                var a = document.getElementById("customer").value;
                 var d = parseInt(document.getElementById("ETHER").value);
+                var cancel_id = parseInt(document.getElementById("cancel_id").value)
                          
                 inventory.deployed().then(function(instance){
                   meta = instance;
-                  return meta.returnether(a,{from:account,value:web3.toWei(d,"ether"),gas:6000000});
+                  return meta.returnether(a,cancel_id,{from:account,value:web3.toWei(d,"ether"),gas:600000});
                   }).then(function(result) {
                   console.log(result);  
                  }).catch(function(e) {

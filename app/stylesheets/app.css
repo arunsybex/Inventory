@@ -1,77 +1,55 @@
+body {
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 10%;
+  font-family: "Open Sans", sans-serif;
+}
+
+label {
+  display: inline-block;
+  width: 100px;
+}
+
 input {
-  border: 5px solid white; 
-  -webkit-box-shadow: 
-    inset 0 0 8px  rgba(0,0,0,0.1),
-          0 0 16px rgba(0,0,0,0.1); 
-  -moz-box-shadow: 
-    inset 0 0 8px  rgba(0,0,0,0.1),
-          0 0 16px rgba(0,0,0,0.1); 
-  box-shadow: 
-    inset 0 0 8px  rgba(0,0,0,0.1),
-          0 0 16px rgba(0,0,0,0.1); 
-  padding: 15px;
-  background:gainsboro;
+  width: 500px;
+  padding: 5px;
+  font-size: 16px;
+  height:500px;
 
-  margin: 0 0 10px 0;
 }
 
-          body {
-                 background:url("B.JPG");
-                  background-size: 1900px 1000px;
-              }
-              .aa,.aa9
-              {
-                  font-size: 16pt;
-                  height: 50px;
-              }
-              .y{
-                  font-size: 16pt;
-              }
-              .btn:hover {
-                  background-color:slategray;
-                  opacity: 0.3;
-              }
-              .btn{
-                  font-size: 13pt;
-                  height: 30px;
-                  background-color:lightseagreen;
-                  cursor: pointer;
-              }
-              .nav{
-                  font-size: 13pt;
-                  
-              }
-              article {
-                  margin-left: 400px;
-              padding: 1em;
-            overflow: hidden;
-           }             
-           .design{
-              float: left;
-           max-width: 300px;
-           margin: 0;
-       padding: 1em;
-           }
-           .order {
-                  margin-left: 400px;
-                  padding: 1em;
-               overflow: hidden;
-           }
-           .inner-addon { 
-  position: relative; 
+button {
+  font-size: 16px;
+  padding: 5px;
+  color:black;
 }
 
-/* style icon */
-.inner-addon .glyphicon {
-position: absolute;
-padding: 10px;
-pointer-events: none;
+h1, h2 {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 0px;
+  margin-bottom: 10px;
 }
 
-/* align icon */
-.left-addon .glyphicon  { left:  0px;}
-.right-addon .glyphicon { right: 0px;}
+h2 {
+  color: #AAA;
+  font-size: 32px;
+}
 
-/* add padding  */
-.left-addon input  { padding-left:  30px; }
-.right-addon input { padding-right: 30px; }
+h3 {
+  font-weight: normal;
+  color: #AAA;
+  font-size: 24px;
+}
+
+.black {
+  color: black;
+}
+
+#balance {
+  color: black;
+}
+
+.hint {
+  color: #666;
+}

@@ -27,6 +27,8 @@ contract Inventory{
              uint quantity;
              uint price;
              uint time;
+             uint status;
+            
             }
         
        
@@ -52,7 +54,7 @@ contract Inventory{
     
     address public owner;
 
-    constructor()public {
+    function Inventory()public {
         owner = msg.sender;
     }
 
@@ -73,7 +75,6 @@ contract Inventory{
         PROD[id].pquantity = quantity;
         PROD[id].pprice = price;
         PROD[id].time = now;
-        productCount++;
         p_id.push(id);
         
     }  
@@ -98,9 +99,11 @@ contract Inventory{
            ORDER[id2].quantity=pquantity;
            ORDER[id2].price = pquantity *  PROD[id].pprice; 
            ORDER[id2].time = now;
+           ORDER[id2].status = 1;
            PROD[id].pquantity-=pquantity;
            owner.transfer(msg.value);
            o_id.push(id2);
+          
            
     }
     
@@ -127,29 +130,30 @@ contract Inventory{
        } 
        
        
-       function vieworder(uint id2)public constant returns(uint,address,uint,string,uint,uint,uint){
+       function vieworder(uint id2)public constant returns(uint,address,uint,uint,uint,uint,uint){
                   
-           return (ORDER[id2].id2,ORDER[id2].cid, ORDER[id2].id1, ORDER[id2].name , ORDER[id2].quantity,ORDER[id2].price, ORDER[id2].time);
+           return (ORDER[id2].id2,ORDER[id2].cid, ORDER[id2].id1,  ORDER[id2].quantity,ORDER[id2].price, ORDER[id2].time, ORDER[id2].status);
            
        }
        
-       function outOfStock(uint id)public constant returns(uint,uint){
-            return (PROD[id].pid,PROD[id].pquantity);
+       function outOfStock(uint id)public constant returns(uint,uint,uint){
+            return (PROD[id].pid,PROD[id].pquantity,PROD[id].pprice);
        }
        
-       function ordercancel(uint oid,uint id)public  {
+       function ordercancel(uint oid,uint id)public{
          require(msg.sender== ORDER[oid].cid);
          uint t =(now -  ORDER[oid].time );
            require(t<= 3600 seconds);
        
          PROD[id].pquantity += ORDER[oid].quantity ;
-         ORDER[oid].quantity -= ORDER[oid].quantity; 
+         ORDER[oid].status = 0;
            CANCELL[oid].oid = oid;
            CANCELL[oid].pid = id ;
            CANCELL[oid]. c_address =  ORDER[oid].cid ;
            CANCELL[oid].price =  ORDER[oid].price;
            CANCELL[oid].time = now;
             c_id.push(oid);
+            
             
          }
          

@@ -8,16 +8,14 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="../app.js"></script>
 </head>
 <body >
- <style>
-
-  /* body {
-      background:url("app/a.jpg");
-      background-size: 1900px 1000px;
-  } */
-
+<style>
+            body{
+                background-image: url('/images/backround.jpg')
+            }
              input {
                 border: 5px solid white; 
                 -webkit-box-shadow: 
@@ -34,18 +32,13 @@
 
                 margin: 0 0 10px 0;
               }
-
-          body {
-                 background:url("B.JPG");
-                  background-size: 1900px 1000px;
-              }
               .aa,.aa9
               {
                   font-size: 16pt;
                   height: 50px;
               }
               .y{
-                  font-size: 16pt;
+                  font-size: 12pt;
               }
               .btn:hover {
                   background-color:slategray;
@@ -53,9 +46,11 @@
               }
               .btn{
                   font-size: 13pt;
-                  height: 30px;
+                  width: 130px;
                   background-color:lightseagreen;
                   cursor: pointer;
+                  border-radius: 26px;
+                  margin-right:16px;
               }
               .nav{
                   font-size: 13pt;
@@ -67,8 +62,8 @@
             overflow: hidden;
            }             
            .design{
-              float: left;
-             max-width: 300px;
+                float: left;
+             /* max-width: 300px; */
              margin: 0;
              padding: 1em;
            }
@@ -101,9 +96,9 @@
 
 
   <!-- Menu selector  <li class="active"><a data-toggle="tab" href="#home">Home</a></li> -->
-<div class="container"><br><br>
+<div class="container-fluid"><br><br>
   
-  <h2><center><b>INVENTORY MANAGEMENT</b></center></h2>
+  <h1><center><b>INVENTORY MANAGEMENT</b></center></h1>
   
   <div id="nav-works">
   </div>
@@ -122,7 +117,7 @@
 <script>
   window.onload = function() {
             App.checkAdmin();
-        };
+ };
   
     function myFunction() {
         document.getElementById("menu1").reset();

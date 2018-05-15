@@ -2,10 +2,8 @@ pragma solidity ^0.4.0;
 
 contract Inventory{
      
-    
-     
-   address public customer;
    uint256 public productCount=0;
+   uint256 public ordercount=0;
    uint256[] public p_id;
    uint256[] public o_id;
    uint256[] public c_id;
@@ -16,7 +14,7 @@ contract Inventory{
         string pbrand;
         uint pquantity;
         uint pprice;
-        uint time;
+        uint time; 
        }
      struct productorder{
              uint id2;
@@ -54,7 +52,7 @@ contract Inventory{
     
     address public owner;
 
-    constructor()public {
+    constructor() payable public {
         owner = msg.sender;
     }
 
@@ -76,7 +74,7 @@ contract Inventory{
         PROD[id].pprice = price;
         PROD[id].time = now;
         p_id.push(id);
-        
+        productCount++;
     }  
    
    function getProductsCount() public view returns(uint256){
@@ -101,8 +99,9 @@ contract Inventory{
            ORDER[id2].time = now;
            ORDER[id2].status = 1;
            PROD[id].pquantity-=pquantity;
-           owner.transfer(msg.value);
+           ORDER[id2].price = msg.value;
            o_id.push(id2);
+           ordercount++;
           
            
     }
@@ -145,13 +144,15 @@ contract Inventory{
          uint t =(now -  ORDER[oid].time );
            require(t<= 3600 seconds);
        
-         PROD[id].pquantity += ORDER[oid].quantity ;
-         ORDER[oid].status = 0;
+            PROD[id].pquantity += ORDER[oid].quantity ;
+            ORDER[oid].status = 0;
            CANCELL[oid].oid = oid;
            CANCELL[oid].pid = id ;
            CANCELL[oid]. c_address =  ORDER[oid].cid ;
            CANCELL[oid].price =  ORDER[oid].price;
            CANCELL[oid].time = now;
+                                   
+           msg.sender.transfer(ORDER[oid].price);
             c_id.push(oid);
             
             
@@ -166,11 +167,23 @@ contract Inventory{
              return (CANCELL[oid].oid , CANCELL[oid].pid , CANCELL[oid]. c_address, CANCELL[oid].price , CANCELL[oid].time);
          }
     
-        function returnether(address x,uint256 _cid)public payable{
-            delete c_id[_cid];
-            x .transfer(msg.value);             
+        function transferOwnership(address newowner) payable public onlyOwner {
+            owner = newowner;
+        }
+        function getbalance()public constant returns(uint256){
+            return  address(this).balance;
         }
         
+        function withdraw(uint amount)payable public onlyOwner returns(bool) {
+            uint x=amount *1 ether;
+            require(x<address(this).balance);
+            owner.transfer(x);
+            return true;
+        }
+        
+        
+
+
     }
    
      

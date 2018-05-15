@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>INVENOTRY</title>
+ 
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="../app.js"></script>
+</head>
+<body >
+<style>
+            body{
+                background-image: url('/app/images/2.jpg')
+            }
+             input {
+                border: 5px solid white; 
+                -webkit-box-shadow: 
+                  inset 0 0 8px  rgba(0,0,0,0.1),
+                        0 0 16px rgba(0,0,0,0.1); 
+                -moz-box-shadow: 
+                  inset 0 0 8px  rgba(0,0,0,0.1),
+                        0 0 16px rgba(0,0,0,0.1); 
+                box-shadow: 
+                  inset 0 0 8px  rgba(0,0,0,0.1),
+                        0 0 16px rgba(0,0,0,0.1); 
+                padding: 15px;
+                background:gainsboro;
+
+                margin: 0 0 10px 0;
+              }
+              .aa,.aa9
+              {
+                  font-size: 16pt;
+                  height: 50px;
+              }
+              .y{
+                  font-size: 12pt;
+              }
+              .btn:hover {
+                  background-color:slategray;
+                  opacity: 0.3;
+              }
+              .btn{
+                  font-size: 13pt;
+                  width: 130px;
+                  background-color: rgb(253, 169, 83);
+                  cursor: pointer;
+                  border-radius: 26px;
+                  margin-right:16px;
+              }
+              .nav{
+                  font-size: 13pt;
+                  
+              }
+          article {
+            margin-left: 400px;
+            padding: 1em;
+            overflow: hidden;
+           }             
+           .design{
+                float: left;
+             /* max-width: 300px; */
+             margin: 0;
+             padding: 1em;
+           }
+           .order {
+                  margin-left: 400px;
+                  padding: 1em;
+               overflow: hidden;
+           }
+           .inner-addon { 
+              position: relative; 
+            }
+
+            /* style icon */
+            .inner-addon .glyphicon {
+            position: absolute;
+            padding: 10px;
+            pointer-events: none;
+            }
+
+            /* align icon */
+            .left-addon .glyphicon  { left:  0px;}
+            .right-addon .glyphicon { right: 0px;}
+
+            /* add padding  */
+            .left-addon input  { padding-left:  30px; }
+            .right-addon input { padding-right: 30px; }
+
+        
+</style>
+
+
+  <!-- Menu selector  <li class="active"><a data-toggle="tab" href="#home">Home</a></li> -->
+<div class="container-fluid"><br><br>
+  
+  <h1><center><b>INVENTORY MANAGEMENT</b></center></h1>
+  
+  <div id="nav-works">
+  </div>
+  
+
+  <div class="tab-content">
+           
+  </div>
+    
+  <div id="loader">
+    <!--<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>-->
+  </div>
+
+    </div>
+</div>
+
+</body>
+<script>
+  window.onload = function() {
+            App.checkAdmin();
+ };
+    function myFunction() {
+        document.getElementById("menu1").reset();
+    }
+     
+    function ValidateAlpha(evt)
+    {
+        var keyCode = (evt.which) ? evt.which : evt.keyCode
+        if ((keyCode < 65 || keyCode > 90) && (keyCode < 97 || keyCode > 123) && keyCode != 32){
+          return false;
+          return true;
+        }
+         
+    }
+    function isNumberKey(evt){  
+   	  var charCode = (evt.which) ? evt.which : evt.keyCode
+      if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)){
+          return false;
+          return true;
+      }
+    }
+    function loader(){
+        
+    }
+</script>
+</html>

@@ -52,7 +52,7 @@ contract Inventory{
     
     address public owner;
 
-    constructor()public {
+    constructor() payable public {
         owner = msg.sender;
     }
 
@@ -167,18 +167,17 @@ contract Inventory{
              return (CANCELL[oid].oid , CANCELL[oid].pid , CANCELL[oid]. c_address, CANCELL[oid].price , CANCELL[oid].time);
          }
     
-        function returnether(address x,uint256 _cid)public payable{
-            delete c_id[_cid];
-            x .transfer(msg.value);             
-        }
         function transferOwnership(address newowner) payable public onlyOwner {
             owner = newowner;
         }
+        function getbalance()public constant returns(uint256){
+            return  address(this).balance;
+        }
         
-        function withdraw(uint oid)payable public onlyOwner returns(bool) {
-            uint t =(now -  ORDER[oid].time );
-            require(t>= 3600 seconds);
-            owner.transfer(ORDER[oid].price);
+        function withdraw(uint amount)payable public onlyOwner returns(bool) {
+            uint x=amount *1 ether;
+            require(x<address(this).balance);
+            owner.transfer(x);
             return true;
         }
         
